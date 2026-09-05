@@ -210,7 +210,6 @@ export default function Stats() {
           className="flex items-center gap-3 py-7 text-[10px] uppercase tracking-[0.25em] text-white/30"
         >
           <span className="h-px w-8 bg-white/20" />
-          Antofagasta · Chile
         </motion.div>
       </div>
     </section>
