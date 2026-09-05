@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ================================
+     BRINELL — BRAND COLORS
+     ================================ */
+
+  --brinell-blue: #4978de;
+  --brinell-blue-dark: #315db8;
+  --brinell-yellow: #eecd5f;
+
+  /* ================================
+     BACKGROUNDS
+     ================================ */
+
+  --background: #f7f8fa;
+  --background-dark: #10141c;
+  --surface: #ffffff;
+
+  /* ================================
+     TEXT
+     ================================ */
+
+  --foreground: #151a24;
+  --muted: #687386;
+  --muted-light: #9aa3b2;
+
+  /* ================================
+     BORDERS
+     ================================ */
+
+  --border: #e2e6ec;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-brinell-blue: var(--brinell-blue);
+  --color-brinell-blue-dark: var(--brinell-blue-dark);
+  --color-brinell-yellow: var(--brinell-yellow);
+
+  --color-surface: var(--surface);
+
+  --color-muted: var(--muted);
+  --color-muted-light: var(--muted-light);
+
+  --color-border: var(--border);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--brinell-blue);
+  color: white;
 }
