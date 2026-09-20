@@ -1,11 +1,12 @@
 "use client";
 
 import { MessageCircle } from "lucide-react";
+import { company } from "@/data/company";
 
 export default function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/56988077712"
+      href={`https://wa.me/${company.whatsapp}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"

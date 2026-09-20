@@ -55,8 +55,22 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Lenis maneja el scroll suave: scroll-behavior nativo desactivado */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
@@ -75,4 +89,116 @@ a {
 ::selection {
   background: var(--brinell-blue);
   color: white;
+}
+/* ================================
+   MARQUEE (Clientes)
+   ================================ */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-track {
+  animation: marquee linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation-duration: 120s !important;
+  }
+}
+
+/* ================================
+   MAPA (MapLibre)
+   ================================ */
+
+.brinell-marker {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+
+.brinell-marker__pulse {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(73, 120, 222, 0.35);
+  transform: translate(-50%, 50%);
+  animation: marker-pulse 2.2s ease-out infinite;
+}
+
+.brinell-marker__pin {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--brinell-blue);
+  border: 3px solid #fff;
+  box-shadow: 0 8px 20px rgba(11, 16, 25, 0.35);
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+@keyframes marker-pulse {
+  0% {
+    transform: translate(-50%, 50%) scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, 50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+.brinell-popup .maplibregl-popup-content {
+  padding: 14px 16px;
+  border-radius: 0;
+  background: #0b1019;
+  color: #fff;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  box-shadow: 0 16px 40px rgba(11, 16, 25, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brinell-popup .maplibregl-popup-content strong {
+  color: var(--brinell-yellow);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.brinell-popup .maplibregl-popup-content span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.brinell-popup .maplibregl-popup-tip {
+  border-top-color: #0b1019;
+}
+
+.maplibregl-ctrl-group {
+  border-radius: 0 !important;
+  box-shadow: 0 8px 25px rgba(11, 16, 25, 0.15) !important;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
 }
