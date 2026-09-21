@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUpRight, Check, Mail, MessageCircle } from "lucide-react";
+import { ArrowUpRight, Check, ChevronDown, Mail, MessageCircle } from "lucide-react";
 import { company } from "@/data/company";
 
 const serviceOptions = [
-  "Ingeniería y diseño de herramientas",
-  "Metrología, fabricación y mecanizado",
-  "Fabricación y reparación de estructuras",
-  "Arenado, granallado y pintura industrial",
-  "Otro requerimiento",
+  "ingeniería y diseño de herramientas",
+  "metrología y mecanizado",
+  "fabricación de estructuras",
+  "arenado y pintura industrial",
+  "otro requerimiento",
 ];
 
 type Fields = {
@@ -27,17 +27,16 @@ const empty: Fields = {
   empresa: "",
   email: "",
   telefono: "",
-  servicio: serviceOptions[0],
+  servicio: "",
   mensaje: "",
 };
 
 function validate(f: Fields) {
   const errors: Partial<Record<keyof Fields, string>> = {};
-  if (f.nombre.trim().length < 2) errors.nombre = "Ingresa tu nombre.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
-    errors.email = "Correo no válido.";
-  if (f.mensaje.trim().length < 10)
-    errors.mensaje = "Cuéntanos un poco más (mín. 10 caracteres).";
+  if (f.nombre.trim().length < 2) errors.nombre = "tu nombre";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) errors.email = "un correo válido";
+  if (!f.servicio) errors.servicio = "el servicio";
+  if (f.mensaje.trim().length < 10) errors.mensaje = "más detalle (mín. 10 caracteres)";
   return errors;
 }
 
@@ -58,23 +57,142 @@ function buildMessage(f: Fields) {
     .join("\n");
 }
 
-const inputClass =
-  "peer w-full border-b border-[#d5dae2] bg-transparent px-0 pb-3 pt-6 text-[15px] text-[#151a24] outline-none transition-colors duration-300 placeholder:text-transparent focus:border-brinell-blue";
+/* Input que crece con el texto, embebido en la frase */
+function Blank({
+  value,
+  placeholder,
+  onChange,
+  error,
+  type = "text",
+  autoComplete,
+}: {
+  value: string;
+  placeholder: string;
+  onChange: (v: string) => void;
+  error?: boolean;
+  type?: string;
+  autoComplete?: string;
+}) {
+  return (
+    <span className="relative mx-1 inline-grid max-w-full align-baseline">
+      <span
+        aria-hidden
+        className="invisible col-start-1 row-start-1 whitespace-pre px-2 font-semibold"
+      >
+        {value || placeholder}
+      </span>
+      <input
+        type={type}
+        size={1}
+        autoComplete={autoComplete}
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className={`col-start-1 row-start-1 w-full min-w-0 border-b-2 bg-transparent px-2 font-semibold text-brinell-yellow outline-none transition-colors duration-300 placeholder:font-normal placeholder:text-white/25 focus:border-brinell-yellow ${
+          error ? "border-red-400" : value ? "border-brinell-yellow/60" : "border-white/25"
+        }`}
+      />
+    </span>
+  );
+}
 
-const labelClass =
-  "pointer-events-none absolute left-0 top-6 text-[15px] text-[#9aa3b2] transition-all duration-300 peer-focus:top-0 peer-focus:text-[10px] peer-focus:font-semibold peer-focus:uppercase peer-focus:tracking-[0.2em] peer-focus:text-brinell-blue peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:font-semibold peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.2em]";
+function ServicePicker({
+  value,
+  onChange,
+  error,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  error?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("mousedown", close);
+    return () => window.removeEventListener("mousedown", close);
+  }, [open]);
+
+  return (
+    <span ref={ref} className="relative z-40 mx-1 inline-block align-baseline">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className={`inline-flex items-center gap-2 border-b-2 px-2 font-semibold transition-colors duration-300 ${
+          error
+            ? "border-red-400"
+            : value
+              ? "border-brinell-yellow/60 text-brinell-yellow"
+              : "border-white/25 text-white/25"
+        } hover:border-brinell-yellow`}
+      >
+        {value || "elegir servicio"}
+        <ChevronDown
+          size={18}
+          className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={{ duration: 0.18 }}
+            className="absolute left-0 top-full z-50 mt-3 w-max max-w-[85vw] border border-white/10 bg-[#0d1220] p-2 text-base font-medium shadow-2xl shadow-black/60"
+          >
+            {serviceOptions.map((opt) => (
+              <li key={opt}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onChange(opt);
+                    setOpen(false);
+                  }}
+                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors ${
+                    value === opt
+                      ? "bg-brinell-yellow text-[#070a10]"
+                      : "text-white/70 hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  <span className="h-1.5 w-1.5 rotate-45 bg-current" />
+                  {opt}
+                </button>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </span>
+  );
+}
 
 export default function ContactForm() {
   const [fields, setFields] = useState<Fields>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [sent, setSent] = useState<"whatsapp" | "email" | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const update =
-    (key: keyof Fields) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-      setFields((f) => ({ ...f, [key]: e.target.value }));
-      if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }));
-    };
+  const set = (key: keyof Fields) => (v: string) => {
+    setFields((f) => ({ ...f, [key]: v }));
+    if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }));
+  };
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "0px";
+    el.style.height = `${el.scrollHeight}px`;
+  }, [fields.mensaje]);
+
+  const required: (keyof Fields)[] = ["nombre", "email", "servicio", "mensaje"];
+  const filled = required.filter((k) => fields[k].trim().length > 0).length;
+  const progress = filled / required.length;
 
   const send = (via: "whatsapp" | "email") => {
     const errs = validate(fields);
@@ -95,7 +213,6 @@ export default function ContactForm() {
         subject,
       )}&body=${encodeURIComponent(body.replace(/\*/g, ""))}`;
     }
-
     setSent(via);
   };
 
@@ -103,6 +220,8 @@ export default function ContactForm() {
     e.preventDefault();
     send("whatsapp");
   };
+
+  const missing = Object.values(errors).filter(Boolean);
 
   return (
     <div className="relative">
@@ -113,18 +232,18 @@ export default function ContactForm() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="flex min-h-[420px] flex-col items-center justify-center text-center"
+            className="flex min-h-[380px] flex-col items-start justify-center"
           >
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brinell-blue text-white">
-              <Check size={28} />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brinell-yellow text-[#070a10]">
+              <Check size={28} strokeWidth={2.5} />
             </div>
-            <h3 className="mt-6 text-2xl font-bold tracking-[-0.03em] text-[#151a24]">
-              ¡Mensaje preparado!
+            <h3 className="mt-8 text-3xl font-bold tracking-[-0.03em] sm:text-4xl">
+              Listo, {fields.nombre.split(" ")[0]}.
             </h3>
-            <p className="mt-3 max-w-sm text-sm leading-6 text-[#687386]">
+            <p className="mt-4 max-w-md text-base leading-7 text-white/50">
               {sent === "whatsapp"
-                ? "Se abrió WhatsApp con tu solicitud lista para enviar. Si no se abrió, revisa el bloqueador de ventanas."
-                : "Se abrió tu cliente de correo con la solicitud lista para enviar."}
+                ? "Se abrió WhatsApp con tu solicitud redactada. Solo presiona enviar."
+                : "Se abrió tu correo con la solicitud redactada. Solo presiona enviar."}
             </p>
             <button
               type="button"
@@ -132,7 +251,7 @@ export default function ContactForm() {
                 setSent(null);
                 setFields(empty);
               }}
-              className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-brinell-blue hover:underline"
+              className="mt-8 text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow hover:underline"
             >
               Enviar otra solicitud
             </button>
@@ -145,116 +264,106 @@ export default function ContactForm() {
             exit={{ opacity: 0, y: -20 }}
             onSubmit={onSubmit}
             noValidate
-            className="space-y-2"
           >
-            <div className="grid gap-x-8 sm:grid-cols-2">
-              <Field label="Nombre *" error={errors.nombre}>
-                <input
-                  className={inputClass}
-                  placeholder="Nombre"
-                  value={fields.nombre}
-                  onChange={update("nombre")}
-                  autoComplete="name"
+            {/* Progreso */}
+            <div className="mb-10 flex items-center gap-4">
+              <div className="h-px flex-1 bg-white/10">
+                <motion.div
+                  className="h-px bg-brinell-yellow"
+                  animate={{ width: `${progress * 100}%` }}
+                  transition={{ type: "spring", stiffness: 120, damping: 20 }}
                 />
-              </Field>
-
-              <Field label="Empresa">
-                <input
-                  className={inputClass}
-                  placeholder="Empresa"
-                  value={fields.empresa}
-                  onChange={update("empresa")}
-                  autoComplete="organization"
-                />
-              </Field>
-
-              <Field label="Correo *" error={errors.email}>
-                <input
-                  type="email"
-                  className={inputClass}
-                  placeholder="Correo"
-                  value={fields.email}
-                  onChange={update("email")}
-                  autoComplete="email"
-                />
-              </Field>
-
-              <Field label="Teléfono">
-                <input
-                  type="tel"
-                  className={inputClass}
-                  placeholder="Teléfono"
-                  value={fields.telefono}
-                  onChange={update("telefono")}
-                  autoComplete="tel"
-                />
-              </Field>
-            </div>
-
-            {/* SERVICIO */}
-            <div className="pt-4">
-              <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9aa3b2]">
-                ¿Qué necesitas?
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {serviceOptions.map((opt) => {
-                  const active = fields.servicio === opt;
-                  return (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setFields((f) => ({ ...f, servicio: opt }))}
-                      className={`border px-3.5 py-2 text-xs font-medium transition-all duration-300 ${
-                        active
-                          ? "border-brinell-blue bg-brinell-blue text-white shadow-[0_8px_25px_rgba(73,120,222,0.25)]"
-                          : "border-[#d5dae2] bg-white text-[#596273] hover:border-[#9aa3b2]"
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  );
-                })}
               </div>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+                {filled}/{required.length} completado
+              </span>
             </div>
 
-            <Field label="Cuéntanos tu requerimiento *" error={errors.mensaje}>
-              <textarea
-                rows={4}
-                className={`${inputClass} resize-none`}
-                placeholder="Mensaje"
-                value={fields.mensaje}
-                onChange={update("mensaje")}
+            {/* La frase */}
+            <p className="relative z-20 text-2xl font-light leading-[1.8] tracking-[-0.02em] text-white/85 sm:text-3xl sm:leading-[1.75] lg:text-[2.6rem] lg:leading-[1.7]">
+              Hola Brinell, soy
+              <Blank
+                value={fields.nombre}
+                placeholder="tu nombre"
+                onChange={set("nombre")}
+                error={!!errors.nombre}
+                autoComplete="name"
               />
-            </Field>
+              de
+              <Blank
+                value={fields.empresa}
+                placeholder="tu empresa"
+                onChange={set("empresa")}
+                autoComplete="organization"
+              />
+              . Necesito
+              <ServicePicker
+                value={fields.servicio}
+                onChange={set("servicio")}
+                error={!!errors.servicio}
+              />
+              . Escríbanme a
+              <Blank
+                value={fields.email}
+                placeholder="tu correo"
+                onChange={set("email")}
+                error={!!errors.email}
+                type="email"
+                autoComplete="email"
+              />
+              o al
+              <Blank
+                value={fields.telefono}
+                placeholder="tu teléfono"
+                onChange={set("telefono")}
+                type="tel"
+                autoComplete="tel"
+              />
+              .
+            </p>
 
-            {/* ACCIONES */}
-            <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center">
-              <button
-                type="submit"
-                className="group inline-flex items-center justify-center gap-3 bg-brinell-blue px-7 py-4 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-brinell-blue-dark hover:shadow-xl hover:shadow-brinell-blue/25"
-              >
+            {/* Detalle */}
+            <div className="relative mt-10">
+              <textarea
+                ref={textareaRef}
+                rows={1}
+                value={fields.mensaje}
+                onChange={(e) => set("mensaje")(e.target.value)}
+                placeholder="Detalle: piezas, cantidades, planos, plazos…"
+                className={`min-h-[5.5rem] w-full resize-none overflow-hidden border-b-2 bg-transparent pb-4 pt-2 text-lg font-light leading-8 text-white outline-none transition-colors duration-300 placeholder:text-white/25 focus:border-brinell-yellow sm:text-xl ${
+                  errors.mensaje ? "border-red-400" : "border-white/20"
+                }`}
+              />
+            </div>
+
+            <AnimatePresence>
+              {missing.length > 0 && (
+                <motion.p
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-4 text-sm text-red-400"
+                >
+                  Falta {missing.join(", ")}.
+                </motion.p>
+              )}
+            </AnimatePresence>
+
+            {/* Acciones */}
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <MagneticButton type="submit" primary>
                 <MessageCircle size={17} />
                 Enviar por WhatsApp
-                <ArrowUpRight
-                  size={17}
-                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => send("email")}
-                className="group inline-flex items-center justify-center gap-3 border border-[#d5dae2] bg-white px-7 py-4 text-sm font-semibold text-[#151a24] transition-all duration-300 hover:-translate-y-1 hover:border-[#151a24]"
-              >
+                <ArrowUpRight size={16} />
+              </MagneticButton>
+              <MagneticButton type="button" onClick={() => send("email")}>
                 <Mail size={17} />
                 Enviar por correo
-              </button>
+              </MagneticButton>
+              <span className="text-[11px] leading-5 text-white/25 sm:ml-auto sm:max-w-[200px] sm:text-right">
+                Sin servidores de por medio: se abre listo para enviar.
+              </span>
             </div>
-
-            <p className="pt-4 text-[11px] leading-5 text-[#9aa3b2]">
-              Sin servidores de por medio: tu mensaje se abre directo en
-              WhatsApp o en tu correo, listo para enviar.
-            </p>
           </motion.form>
         )}
       </AnimatePresence>
@@ -262,31 +371,35 @@ export default function ContactForm() {
   );
 }
 
-function Field({
-  label,
-  error,
+function MagneticButton({
   children,
-}: {
-  label: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
+  primary,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { primary?: boolean }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
   return (
-    <div className="relative pb-5">
+    <motion.button
+      ref={ref}
+      animate={offset}
+      transition={{ type: "spring", stiffness: 200, damping: 15, mass: 0.4 }}
+      onMouseMove={(e) => {
+        const r = ref.current!.getBoundingClientRect();
+        setOffset({
+          x: (e.clientX - (r.left + r.width / 2)) * 0.25,
+          y: (e.clientY - (r.top + r.height / 2)) * 0.35,
+        });
+      }}
+      onMouseLeave={() => setOffset({ x: 0, y: 0 })}
+      className={`inline-flex items-center justify-center gap-3 px-7 py-4 text-sm font-bold transition-colors duration-300 ${
+        primary
+          ? "bg-brinell-yellow text-[#070a10] hover:bg-white"
+          : "border border-white/20 text-white/70 hover:border-white hover:text-white"
+      }`}
+      {...(props as object)}
+    >
       {children}
-      <label className={labelClass}>{label}</label>
-      <AnimatePresence>
-        {error && (
-          <motion.span
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="absolute bottom-0 left-0 text-[11px] font-medium text-red-500"
-          >
-            {error}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </div>
+    </motion.button>
   );
 }

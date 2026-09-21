@@ -202,3 +202,48 @@ a {
 .maplibregl-ctrl-attrib {
   font-size: 10px;
 }
+
+/* Tarjetas con luz que sigue el cursor (sección contacto) */
+.spotlight__glow {
+  background:
+    radial-gradient(
+      420px circle at var(--x, 50%) var(--y, 50%),
+      rgba(238, 205, 95, 0.14),
+      transparent 45%
+    );
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: radial-gradient(
+    300px circle at var(--x, 50%) var(--y, 50%),
+    rgba(238, 205, 95, 0.7),
+    transparent 60%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Foco luminoso de fondo que sigue el cursor */
+.section-spot {
+  background:
+    radial-gradient(
+      700px circle at var(--mx, 50%) var(--my, 30%),
+      rgba(73, 120, 222, 0.16),
+      transparent 60%
+    );
+}
