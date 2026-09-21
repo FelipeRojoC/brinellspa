@@ -6,9 +6,9 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const navItems = [
   { label: "Inicio", href: "#inicio" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proyectos", href: "#proyectos" },
   { label: "Nosotros", href: "#nosotros" },
+  { label: "Servicios", href: "#servicios" },
+  { label: "Capacidades", href: "#capacidades" },
   { label: "Contacto", href: "#contacto" },
 ];
 

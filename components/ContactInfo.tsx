@@ -18,7 +18,7 @@ function useAntofagastaClock() {
       cancelAnimationFrame(first);
     };
   }, []);
-  if (!now) return { time: "--:--:--", open: false, day: "" };
+  if (!now) return { time: "--:--:--", day: "" };
 
   const parts = new Intl.DateTimeFormat("es-CL", {
     timeZone: TZ,
@@ -29,17 +29,9 @@ function useAntofagastaClock() {
     hour12: false,
   }).formatToParts(now);
   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
-  const h = Number(get("hour"));
-  const m = Number(get("minute"));
-  const weekday = get("weekday");
-  const minutes = h * 60 + m;
-  const isWeekday = !["sábado", "domingo"].includes(weekday);
-  const open = isWeekday && minutes >= 8 * 60 + 30 && minutes < 18 * 60;
-
   return {
     time: `${get("hour")}:${get("minute")}:${get("second")}`,
-    open,
-    day: weekday,
+    day: get("weekday"),
   };
 }
 
@@ -80,7 +72,7 @@ function SpotlightCard({
 }
 
 const Label = ({ children }: { children: ReactNode }) => (
-  <p className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-brinell-yellow">
+  <p className="mb-3 flex items-center gap-2 font-mono text-xs text-brinell-yellow">
     {children}
   </p>
 );
@@ -101,34 +93,21 @@ export default function ContactInfo() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <Label>
-              <span
-                className={`relative flex h-2 w-2 ${clock.open ? "" : "opacity-60"}`}
-              >
-                {clock.open && (
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                )}
-                <span
-                  className={`relative inline-flex h-2 w-2 rounded-full ${
-                    clock.open ? "bg-emerald-400" : "bg-white/40"
-                  }`}
-                />
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brinell-yellow opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brinell-yellow" />
               </span>
-              {clock.open ? "Taller abierto ahora" : "Taller cerrado"}
+              Ahora en el taller
             </Label>
             <p className="font-mono text-5xl font-bold tabular-nums tracking-[-0.04em] sm:text-6xl">
               {clock.time}
             </p>
-            <p className="mt-2 text-sm capitalize text-white/40">
-              {clock.day && `${clock.day} · `}Hora Antofagasta
-            </p>
           </div>
-          <div className="text-right">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/35">
-              Horario
-            </p>
-            <p className="mt-2 text-base font-medium text-white/80">Lunes a viernes</p>
-            <p className="text-base font-medium text-white/80">08:30 – 18:00</p>
-          </div>
+          <p className="text-right text-sm text-white/40">
+            <span className="capitalize">{clock.day}</span>
+            <br />
+            Hora local, Antofagasta
+          </p>
         </div>
       </SpotlightCard>
 

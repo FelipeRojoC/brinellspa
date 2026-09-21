@@ -14,8 +14,26 @@ import { company } from "@/data/company";
 // Worker servido desde /public (ver scripts/copy-maplibre-worker.mjs)
 setWorkerUrl("/vendor/maplibre/maplibre-gl-worker.mjs");
 
-// Tiles vectoriales gratuitos, sin API key (OpenFreeMap / OpenStreetMap)
-const STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
+import type { StyleSpecification } from "maplibre-gl";
+
+// Vector gratuito sin API key (OpenFreeMap) y satelital Esri World Imagery
+const STREET_STYLE = "https://tiles.openfreemap.org/styles/liberty";
+const SATELLITE_STYLE: StyleSpecification = {
+  version: 8,
+  sources: {
+    esri: {
+      type: "raster",
+      tiles: [
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      ],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution:
+        "Imagery © Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+    },
+  },
+  layers: [{ id: "esri", type: "raster", source: "esri" }],
+};
 
 const TARGET = {
   center: [company.address.lng, company.address.lat] as [number, number],
@@ -30,6 +48,7 @@ export default function ContactMap() {
   const [ready, setReady] = useState(false);
   const [flown, setFlown] = useState(false);
   const [inView, setInView] = useState(false);
+  const [satellite, setSatellite] = useState(true);
 
   // Detectar cuándo el mapa entra en pantalla para lanzar el "vuelo"
   useEffect(() => {
@@ -50,7 +69,7 @@ export default function ContactMap() {
 
     const map = new MapLibreMap({
       container: containerRef.current,
-      style: STYLE_URL,
+      style: SATELLITE_STYLE,
       center: TARGET.center,
       zoom: 11.5,
       pitch: 0,
@@ -101,6 +120,12 @@ export default function ContactMap() {
     };
   }, []);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    map.setStyle(satellite ? SATELLITE_STYLE : STREET_STYLE);
+  }, [satellite, ready]);
+
   // Vuelo cinematográfico + rotación suave hasta que el usuario interactúe
   useEffect(() => {
     const map = mapRef.current;
@@ -143,6 +168,25 @@ export default function ContactMap() {
   return (
     <div className="relative h-full w-full">
       <div ref={containerRef} className="h-full w-full" />
+
+      {/* Satélite / Mapa */}
+      <div className="absolute right-3 top-3 z-10 flex border border-white/15 bg-[#0b1019]/85 font-mono text-[11px] backdrop-blur-md sm:right-14">
+        {(["Satélite", "Mapa"] as const).map((label) => {
+          const active = satellite === (label === "Satélite");
+          return (
+            <button
+              key={label}
+              type="button"
+              onClick={() => setSatellite(label === "Satélite")}
+              className={`px-3 py-2 transition-colors ${
+                active ? "bg-brinell-yellow text-[#070a10]" : "text-white/70 hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
 
       {/* Loader */}
       <div

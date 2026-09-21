@@ -57,32 +57,10 @@ export default function Services() {
       className="relative overflow-hidden bg-[#f5f6f8] py-24 sm:py-28 lg:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* CABECERA */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7 }}
-          className="mb-16 flex flex-col gap-6 lg:mb-20 lg:flex-row lg:items-end lg:justify-between"
-        >
-          <div className="max-w-3xl">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.3em] text-brinell-blue">
-              Nuestros servicios
-            </p>
-
-            <h2 className="text-4xl font-bold leading-[0.95] tracking-[-0.045em] text-[#151a24] sm:text-5xl lg:text-6xl">
-              Soluciones para
-              <br />
-              <span className="text-brinell-blue">desafíos reales.</span>
-            </h2>
-          </div>
-
-          <p className="max-w-md text-sm leading-7 text-[#687386] lg:pb-1 lg:text-right">
-            Desde el diseño hasta la fabricación y recuperación de componentes,
-            desarrollamos soluciones orientadas a las necesidades de la
-            industria minera y metalmecánica.
-          </p>
-        </motion.div>
+        <div className="mb-14 flex items-baseline justify-between gap-6">
+          <h2 className="text-lg font-medium text-[#687386]">Servicios</h2>
+          <p className="font-mono text-xs text-[#9aa3b2]">04 líneas de trabajo</p>
+        </div>
 
         {/* CONTENIDO */}
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
@@ -237,9 +215,9 @@ export default function Services() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="text-sm font-semibold tracking-[0.2em] text-brinell-yellow"
+                  className="font-mono text-sm text-brinell-yellow"
                 >
-                  SERVICIO {active.number}
+                  {active.subtitle}
                 </motion.div>
 
                 <motion.div
@@ -265,10 +243,6 @@ export default function Services() {
                     {active.title}
                   </h3>
 
-                  <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-brinell-blue">
-                    {active.subtitle}
-                  </p>
-
                   <p className="mt-7 max-w-xl text-sm leading-7 text-white/55 sm:text-base">
                     {active.description}
                   </p>
@@ -278,8 +252,8 @@ export default function Services() {
               {/* INFERIOR */}
               <div className="flex items-end justify-between gap-6 border-t border-white/10 pt-6">
                 <div>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/30">
-                    BRINELL · ANTOFAGASTA
+                  <span className="font-mono text-xs text-white/30">
+                    {active.number} / 04
                   </span>
                 </div>
 
@@ -303,46 +277,6 @@ export default function Services() {
           </motion.div>
         </div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mt-12 flex flex-col items-start justify-between gap-5 border-t border-[#dfe3e9] pt-7 sm:flex-row sm:items-center"
-        >
-          <p className="text-sm text-[#687386]">
-            ¿Tienes un requerimiento específico?
-          </p>
-
-          <a
-            href="#contacto"
-            className="
-              group inline-flex items-center gap-3
-              text-sm font-semibold text-[#151a24]
-              transition-colors duration-300
-              hover:text-brinell-blue
-            "
-          >
-            Cuéntanos tu proyecto
-
-            <span
-              className="
-                flex h-9 w-9 items-center justify-center
-                rounded-full border border-[#d5dae2]
-                transition-all duration-300
-                group-hover:border-brinell-blue
-                group-hover:bg-brinell-blue
-                group-hover:text-white
-              "
-            >
-              <ArrowUpRight
-                size={16}
-                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              />
-            </span>
-          </a>
-        </motion.div>
       </div>
     </section>
   );

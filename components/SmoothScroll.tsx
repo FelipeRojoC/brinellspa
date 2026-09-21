@@ -1,8 +1,26 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
+import { useEffect } from "react";
+import { ReactLenis, useLenis } from "lenis/react";
+import type Lenis from "lenis";
 
-/** Scroll suave con inercia (Lenis). `anchors` intercepta los links #hash. */
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
+
+function LenisBridge() {
+  const lenis = useLenis();
+  useEffect(() => {
+    window.__lenis = lenis;
+    return () => {
+      window.__lenis = undefined;
+    };
+  }, [lenis]);
+  return null;
+}
+
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   return (
     <ReactLenis
@@ -13,6 +31,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         anchors: { offset: -80 },
       }}
     >
+      <LenisBridge />
       {children}
     </ReactLenis>
   );

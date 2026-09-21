@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUpRight, Check, ChevronDown, Mail, MessageCircle } from "lucide-react";
+import {
+  ArrowUpRight,
+  Check,
+  ChevronDown,
+  Mail,
+  MessageCircle,
+} from "lucide-react";
 import { company } from "@/data/company";
 
 const serviceOptions = [
@@ -34,9 +40,11 @@ const empty: Fields = {
 function validate(f: Fields) {
   const errors: Partial<Record<keyof Fields, string>> = {};
   if (f.nombre.trim().length < 2) errors.nombre = "tu nombre";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) errors.email = "un correo válido";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
+    errors.email = "un correo válido";
   if (!f.servicio) errors.servicio = "el servicio";
-  if (f.mensaje.trim().length < 10) errors.mensaje = "más detalle (mín. 10 caracteres)";
+  if (f.mensaje.trim().length < 10)
+    errors.mensaje = "más detalle (mín. 10 caracteres)";
   return errors;
 }
 
@@ -89,7 +97,11 @@ function Blank({
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         className={`col-start-1 row-start-1 w-full min-w-0 border-b-2 bg-transparent px-2 font-semibold text-brinell-yellow outline-none transition-colors duration-300 placeholder:font-normal placeholder:text-white/25 focus:border-brinell-yellow ${
-          error ? "border-red-400" : value ? "border-brinell-yellow/60" : "border-white/25"
+          error
+            ? "border-red-400"
+            : value
+              ? "border-brinell-yellow/60"
+              : "border-white/25"
         }`}
       />
     </span>
@@ -139,7 +151,8 @@ function ServicePicker({
 
       <AnimatePresence>
         {open && (
-          <motion.ul
+          <motion.div
+            role="listbox"
             initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
@@ -147,25 +160,26 @@ function ServicePicker({
             className="absolute left-0 top-full z-50 mt-3 w-max max-w-[85vw] border border-white/10 bg-[#0d1220] p-2 text-base font-medium shadow-2xl shadow-black/60"
           >
             {serviceOptions.map((opt) => (
-              <li key={opt}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onChange(opt);
-                    setOpen(false);
-                  }}
-                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors ${
-                    value === opt
-                      ? "bg-brinell-yellow text-[#070a10]"
-                      : "text-white/70 hover:bg-white/5 hover:text-white"
-                  }`}
-                >
-                  <span className="h-1.5 w-1.5 rotate-45 bg-current" />
-                  {opt}
-                </button>
-              </li>
+              <button
+                key={opt}
+                role="option"
+                aria-selected={value === opt}
+                type="button"
+                onClick={() => {
+                  onChange(opt);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors ${
+                  value === opt
+                    ? "bg-brinell-yellow text-[#070a10]"
+                    : "text-white/70 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <span className="h-1.5 w-1.5 rotate-45 bg-current" />
+                {opt}
+              </button>
             ))}
-          </motion.ul>
+          </motion.div>
         )}
       </AnimatePresence>
     </span>
@@ -174,7 +188,9 @@ function ServicePicker({
 
 export default function ContactForm() {
   const [fields, setFields] = useState<Fields>(empty);
-  const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>(
+    {},
+  );
   const [sent, setSent] = useState<"whatsapp" | "email" | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -182,6 +198,18 @@ export default function ContactForm() {
     setFields((f) => ({ ...f, [key]: v }));
     if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }));
   };
+
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const { servicio, mensaje } = (
+        e as CustomEvent<{ servicio: string; mensaje: string }>
+      ).detail;
+      setSent(null);
+      setFields((f) => ({ ...f, servicio, mensaje }));
+    };
+    window.addEventListener("brinell:prefill", onPrefill);
+    return () => window.removeEventListener("brinell:prefill", onPrefill);
+  }, []);
 
   useEffect(() => {
     const el = textareaRef.current;
@@ -280,7 +308,7 @@ export default function ContactForm() {
             </div>
 
             {/* La frase */}
-            <p className="relative z-20 text-2xl font-light leading-[1.8] tracking-[-0.02em] text-white/85 sm:text-3xl sm:leading-[1.75] lg:text-[2.6rem] lg:leading-[1.7]">
+            <div className="relative z-20 text-2xl font-light leading-[1.8] tracking-[-0.02em] text-white/85 sm:text-3xl sm:leading-[1.75] lg:text-[2.6rem] lg:leading-[1.7]">
               Hola Brinell, soy
               <Blank
                 value={fields.nombre}
@@ -320,7 +348,7 @@ export default function ContactForm() {
                 autoComplete="tel"
               />
               .
-            </p>
+            </div>
 
             {/* Detalle */}
             <div className="relative mt-10">
@@ -360,9 +388,6 @@ export default function ContactForm() {
                 <Mail size={17} />
                 Enviar por correo
               </MagneticButton>
-              <span className="text-[11px] leading-5 text-white/25 sm:ml-auto sm:max-w-[200px] sm:text-right">
-                Sin servidores de por medio: se abre listo para enviar.
-              </span>
             </div>
           </motion.form>
         )}

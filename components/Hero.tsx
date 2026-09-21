@@ -66,13 +66,10 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="mb-7 flex items-center gap-3"
+            className="mb-7 flex items-center gap-3 font-mono text-sm text-brinell-yellow"
           >
-            <span className="h-px w-10 bg-brinell-yellow" />
-
-            <span className="text-sm font-semibold uppercase tracking-[0.28em] text-brinell-yellow">
-              Maestranza metalmecánica
-            </span>
+            Maestranza metalmecánica
+            <span className="text-white/40">/ Antofagasta / desde 2020</span>
           </motion.div>
 
           {/* TITLE */}
