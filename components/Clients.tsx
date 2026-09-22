@@ -26,10 +26,10 @@ function MarqueeRow({
         {items.map((name, i) => (
           <span
             key={`${name}-${i}`}
-            className="flex items-center gap-10 pr-10 text-4xl font-bold uppercase tracking-[-0.03em] text-white/15 transition-colors duration-500 group-hover:text-white/30 sm:text-6xl lg:text-7xl"
+            className="flex items-center gap-10 pr-10 text-4xl font-bold uppercase tracking-[-0.03em] text-[#151a24]/25 transition-colors duration-500 group-hover:text-[#151a24]/55 sm:text-6xl lg:text-7xl"
           >
             {name}
-            <span className="h-2 w-2 rotate-45 bg-brinell-yellow/60" />
+            <span className="h-2 w-2 rotate-45 bg-brinell-blue/50" />
           </span>
         ))}
       </div>
@@ -45,10 +45,10 @@ function MarqueeRow({
         {items.map((name, i) => (
           <span
             key={`${name}-dup-${i}`}
-            className="flex items-center gap-10 pr-10 text-4xl font-bold uppercase tracking-[-0.03em] text-white/15 transition-colors duration-500 group-hover:text-white/30 sm:text-6xl lg:text-7xl"
+            className="flex items-center gap-10 pr-10 text-4xl font-bold uppercase tracking-[-0.03em] text-[#151a24]/25 transition-colors duration-500 group-hover:text-[#151a24]/55 sm:text-6xl lg:text-7xl"
           >
             {name}
-            <span className="h-2 w-2 rotate-45 bg-brinell-yellow/60" />
+            <span className="h-2 w-2 rotate-45 bg-brinell-blue/50" />
           </span>
         ))}
       </div>
@@ -60,9 +60,9 @@ export default function Clients() {
   return (
     <section
       id="clientes"
-      className="relative overflow-hidden border-t border-white/10 bg-[#070a10] py-16 text-white sm:py-20"
+      className="relative overflow-hidden bg-white py-16 text-[#151a24] sm:py-20"
     >
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brinell-blue/10 blur-[160px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brinell-blue/[0.07] blur-[160px]" />
 
       <div className="mx-auto mb-12 max-w-7xl px-6 lg:px-8">
         <motion.div
@@ -72,15 +72,15 @@ export default function Clients() {
           transition={{ duration: 0.7 }}
           className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
         >
-          <h2 className="text-lg font-medium text-white/50">Confían en Brinell</h2>
-          <p className="font-mono text-xs text-white/35">{clients.length} clientes</p>
+          <h2 className="text-lg font-medium text-[#687386]">Confían en Brinell</h2>
+          <p className="font-mono text-xs text-[#9aa3b2]">{clients.length} clientes</p>
         </motion.div>
       </div>
 
       {/* MARQUEE */}
       <div className="relative flex flex-col gap-6">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#070a10] to-transparent sm:w-40" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#070a10] to-transparent sm:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent sm:w-40" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent sm:w-40" />
 
         <MarqueeRow duration={30} />
         <MarqueeRow reverse duration={36} />
