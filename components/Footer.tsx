@@ -6,16 +6,12 @@ const navItems = [
   { label: "Inicio", href: "#inicio" },
   { label: "Nosotros", href: "#nosotros" },
   { label: "Servicios", href: "#servicios" },
-  { label: "Capacidades", href: "#capacidades" },
+  { label: "Trabajos", href: "#trabajos" },
+  { label: "Clientes", href: "#clientes" },
   { label: "Contacto", href: "#contacto" },
 ];
 
-const services = [
-  "Ingeniería y diseño",
-  "Metrología y mecanizado",
-  "Estructuras metálicas",
-  "Arenado y pintura industrial",
-];
+const services = company.services.map((s) => s.short);
 
 export default function Footer() {
   const year = new Date().getFullYear();
