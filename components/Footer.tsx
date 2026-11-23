@@ -17,7 +17,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#070a10] text-white">
+    <footer className="plate plate-veil relative overflow-hidden text-white">
       {/* Marca de agua gigante */}
       <div
         aria-hidden

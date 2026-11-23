@@ -23,20 +23,9 @@ export default function Contact() {
     <section
       id="contacto"
       onMouseMove={onMove}
-      className="relative overflow-hidden bg-[#070a10] text-white"
+      className="plate plate-veil relative overflow-hidden text-white"
     >
       {/* Fondo: grilla técnica + foco que sigue el cursor */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 100%)",
-        }}
-      />
       <div
         ref={spotRef}
         aria-hidden
@@ -57,10 +46,10 @@ export default function Contact() {
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.3em] text-brinell-yellow">
               Contacto
             </p>
-            <h2 className="text-4xl font-bold leading-[0.95] tracking-[-0.045em] sm:text-5xl lg:text-7xl">
+            <h2 className="heading-hard text-4xl sm:text-5xl lg:text-7xl">
               Hablemos de
               <br />
-              <span className="text-brinell-blue">tu próximo proyecto.</span>
+              <em>tu próximo proyecto</em>
             </h2>
           </div>
           <p className="max-w-xs text-sm leading-7 text-white/40 lg:pb-1 lg:text-right">

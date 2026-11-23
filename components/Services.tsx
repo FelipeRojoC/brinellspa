@@ -18,8 +18,8 @@ export default function Services() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-14 flex items-baseline justify-between gap-6">
-          <h2 className="text-3xl font-bold tracking-[-0.04em] text-[#151a24] sm:text-4xl">
-            Nuestros servicios
+          <h2 className="heading-hard text-4xl text-[#151a24] sm:text-5xl lg:text-6xl">
+            Nuestros <em className="text-brinell-blue">servicios</em>
           </h2>
           <p className="font-mono text-xs text-[#9aa3b2]">
             06 líneas de trabajo
@@ -81,7 +81,7 @@ export default function Services() {
           </div>
 
           {/* PANEL */}
-          <div className="relative min-h-[420px] overflow-hidden bg-[#0b1019] lg:sticky lg:top-28 lg:self-start">
+          <div className="plate relative min-h-[420px] overflow-hidden lg:sticky lg:top-28 lg:self-start">
             <div
               aria-hidden
               className="absolute inset-0 opacity-[0.055]"

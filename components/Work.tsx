@@ -8,24 +8,12 @@ export default function Work() {
   return (
     <section
       id="trabajos"
-      className="relative overflow-hidden bg-[#070a10] py-24 text-white sm:py-28 lg:py-32"
+      className="plate plate-veil relative overflow-hidden py-24 text-white sm:py-28 lg:py-32"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.25]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 100%)",
-        }}
-      />
-
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-14 flex items-baseline justify-between gap-6">
-          <h2 className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl">
-            Trabajos realizados
+          <h2 className="heading-hard text-4xl sm:text-5xl lg:text-6xl">
+            Trabajos <em>realizados</em>
           </h2>
           <p className="font-mono text-xs text-white/35">Antofagasta</p>
         </div>
@@ -38,7 +26,7 @@ export default function Work() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: i * 0.06 }}
-              className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-white/10 bg-white/[0.02] p-6 transition-colors duration-500 hover:border-brinell-yellow/40"
+              className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-white/10 bg-[#0b0e14]/85 p-6 backdrop-blur-sm transition-all duration-500 hover:border-brinell-yellow hover:bg-[#0b0e14]"
             >
               <div className="absolute inset-0 flex items-center justify-center text-white/[0.07] transition-colors duration-500 group-hover:text-white/15">
                 <Camera size={56} strokeWidth={1} />

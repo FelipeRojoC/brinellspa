@@ -247,3 +247,31 @@ a {
       transparent 60%
     );
 }
+
+/* Plancha estriada: fondo metálico de las secciones oscuras */
+.plate {
+  background-color: #0a0d12;
+  background-image: url("/images/textures/diamond-plate.png");
+  background-size: 190px 190px;
+  background-repeat: repeat;
+}
+.plate-veil::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 85% 60% at 50% 40%, rgba(10, 13, 18, 0.45), rgba(7, 10, 16, 0.92));
+}
+
+/* Título de sección: pesado, en caja alta, con acento amarillo */
+.heading-hard {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+.heading-hard em {
+  font-style: normal;
+  color: var(--brinell-yellow);
+}

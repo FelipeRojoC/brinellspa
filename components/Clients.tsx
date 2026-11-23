@@ -20,8 +20,8 @@ export default function Clients() {
           transition={{ duration: 0.7 }}
           className="mb-12 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
         >
-          <h2 className="text-3xl font-bold tracking-[-0.04em] sm:text-4xl">
-            Confían en Brinell
+          <h2 className="heading-hard text-4xl sm:text-5xl lg:text-6xl">
+            Nuestros <em className="text-brinell-blue">clientes</em>
           </h2>
           <p className="max-w-sm text-sm leading-6 text-[#687386] sm:text-right">
             Minería, energía eólica y metalurgia de la Región de Antofagasta.
