@@ -192,6 +192,9 @@ export default function ContactForm() {
     {},
   );
   const [sent, setSent] = useState<"whatsapp" | "email" | null>(null);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const set = (key: keyof Fields) => (v: string) => {
@@ -222,26 +225,37 @@ export default function ContactForm() {
   const filled = required.filter((k) => fields[k].trim().length > 0).length;
   const progress = filled / required.length;
 
-  const send = (via: "whatsapp" | "email") => {
+  const send = async (via: "whatsapp" | "email") => {
     const errs = validate(fields);
     setErrors(errs);
     if (Object.keys(errs).length) return;
 
-    const body = buildMessage(fields);
-
     if (via === "whatsapp") {
       window.open(
-        `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(body)}`,
+        `https://wa.me/${company.whatsapp}?text=${encodeURIComponent(buildMessage(fields))}`,
         "_blank",
         "noopener,noreferrer",
       );
-    } else {
-      const subject = `Cotización · ${fields.servicio} · ${fields.nombre}`;
-      window.location.href = `mailto:${company.emails.maestranza}?subject=${encodeURIComponent(
-        subject,
-      )}&body=${encodeURIComponent(body.replace(/\*/g, ""))}`;
+      setSent("whatsapp");
+      return;
     }
-    setSent(via);
+
+    // El correo se envía desde el servidor, sin abrir el cliente del visitante
+    setSending(true);
+    setFailed(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...fields, website: honeypot }),
+      });
+      if (!res.ok) throw new Error("envío rechazado");
+      setSent("email");
+    } catch {
+      setFailed(true);
+    } finally {
+      setSending(false);
+    }
   };
 
   const onSubmit = (e: FormEvent) => {
@@ -271,7 +285,7 @@ export default function ContactForm() {
             <p className="mt-4 max-w-md text-base leading-7 text-white/50">
               {sent === "whatsapp"
                 ? "Se abrió WhatsApp con tu solicitud redactada. Solo presiona enviar."
-                : "Se abrió tu correo con la solicitud redactada. Solo presiona enviar."}
+                : "Recibimos tu solicitud por correo. Te respondemos a la brevedad."}
             </p>
             <button
               type="button"
@@ -365,6 +379,17 @@ export default function ContactForm() {
             </div>
 
             <AnimatePresence>
+              {failed && (
+                <motion.p
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-4 text-sm text-red-400"
+                >
+                  No pudimos enviar el correo. Escríbenos por WhatsApp o a{" "}
+                  {company.emails.maestranza}.
+                </motion.p>
+              )}
               {missing.length > 0 && (
                 <motion.p
                   initial={{ opacity: 0, y: -6 }}
@@ -377,6 +402,17 @@ export default function ContactForm() {
               )}
             </AnimatePresence>
 
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
+
             {/* Acciones */}
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <MagneticButton type="submit" primary>
@@ -384,9 +420,13 @@ export default function ContactForm() {
                 Enviar por WhatsApp
                 <ArrowUpRight size={16} />
               </MagneticButton>
-              <MagneticButton type="button" onClick={() => send("email")}>
+              <MagneticButton
+                type="button"
+                onClick={() => send("email")}
+                disabled={sending}
+              >
                 <Mail size={17} />
-                Enviar por correo
+                {sending ? "Enviando…" : "Enviar por correo"}
               </MagneticButton>
             </div>
           </motion.form>
@@ -417,7 +457,7 @@ function MagneticButton({
         });
       }}
       onMouseLeave={() => setOffset({ x: 0, y: 0 })}
-      className={`inline-flex items-center justify-center gap-3 px-7 py-4 text-sm font-bold transition-colors duration-300 ${
+      className={`inline-flex items-center justify-center gap-3 px-7 py-4 text-sm font-bold transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-60 ${
         primary
           ? "bg-brinell-yellow text-[#070a10] hover:bg-white"
           : "border border-white/20 text-white/70 hover:border-white hover:text-white"
