@@ -90,4 +90,8 @@ export const company = {
   ],
 } as const;
 
+/** Dominio definitivo. En Vercel se define NEXT_PUBLIC_SITE_URL hasta conectarlo. */
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.brinell.cl";
+
 export const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${company.address.lat},${company.address.lng}`;

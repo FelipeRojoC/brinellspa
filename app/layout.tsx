@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, Barlow, IBM_Plex_Mono } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import WeldIntro from "@/components/WeldIntro";
-import { company } from "@/data/company";
+import StructuredData from "@/components/StructuredData";
+import { company, siteUrl } from "@/data/company";
 import "./globals.css";
 
 /* Archivo para titulares: grotesca ancha y pesada, de señalética industrial. */
@@ -26,6 +27,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: "/" },
   title: `${company.name} · Maestranza Metalmecánica en Antofagasta`,
   description:
     "Ingeniería, fabricación, mecanizado, reparación de estructuras, arenado y pintura industrial para la minería e industria del norte de Chile.",
@@ -59,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${archivo.variable} ${barlow.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <StructuredData />
         <WeldIntro />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
