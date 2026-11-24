@@ -17,8 +17,8 @@ export const company = {
   },
 
   phone: "+56 9 4570 3762",
-  /** Solo dígitos, formato internacional, para wa.me (número que ya usaba el botón flotante) */
-  whatsapp: "56988077712",
+  /** Solo dígitos, formato internacional, para wa.me. Confirmado por el cliente. */
+  whatsapp: "56945703762",
 
   emails: {
     maestranza: "maestranza@brinell.cl",
