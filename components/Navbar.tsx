@@ -63,7 +63,6 @@ export default function Navbar() {
             aria-label="Brinell - Inicio"
           >
             <Image
-              data-navbar-logo
               src="/images/logo/brinell-logo.png"
               alt="Brinell Maestranza Metalmecánica"
               width={220}

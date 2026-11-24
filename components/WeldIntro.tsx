@@ -22,7 +22,7 @@ const COOL_MS = 700;
 let lowPower = false;
 
 export default function WeldIntro() {
-  const [phase, setPhase] = useState<"weld" | "fly" | "done">(() => {
+  const [phase, setPhase] = useState<"weld" | "fade" | "done">(() => {
     if (typeof window === "undefined") return "weld";
     lowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -30,7 +30,6 @@ export default function WeldIntro() {
       : "weld";
   });
   const [progress, setProgress] = useState(0);
-  const [flyTo, setFlyTo] = useState<{ x: number; y: number; scale: number } | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -149,7 +148,7 @@ export default function WeldIntro() {
       ctx.globalCompositeOperation = "source-over";
 
       if (p >= 1 && sparks.current.length === 0) {
-        setPhase("fly");
+        setPhase("fade");
         return;
       }
       raf = requestAnimationFrame(frame);
@@ -162,24 +161,10 @@ export default function WeldIntro() {
     };
   }, [phase]);
 
-  // Vuelo: el logo viaja hasta su lugar en la navbar
+  // Cierre: el logo se sostiene un instante ya soldado y se desvanece
   useEffect(() => {
-    if (phase !== "fly") return;
-
-    const from = logoRef.current?.getBoundingClientRect();
-    const to = document
-      .querySelector<HTMLElement>("[data-navbar-logo]")
-      ?.getBoundingClientRect();
-
-    if (from && to) {
-      setFlyTo({
-        x: to.left + to.width / 2 - (from.left + from.width / 2),
-        y: to.top + to.height / 2 - (from.top + from.height / 2),
-        scale: to.width / from.width,
-      });
-    }
-
-    const t = setTimeout(() => setPhase("done"), 1100);
+    if (phase !== "fade") return;
+    const t = setTimeout(() => setPhase("done"), 620);
     return () => clearTimeout(t);
   }, [phase]);
 
@@ -191,7 +176,7 @@ export default function WeldIntro() {
         <motion.div
           key="intro"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#050709]"
         >
           {/* Resplandor del arco */}
@@ -238,19 +223,14 @@ export default function WeldIntro() {
               }}
               transition={{ duration: COOL_MS / 1000, ease: "easeOut" }}
             >
-              <motion.div
-                animate={flyTo ? { x: flyTo.x, y: flyTo.y, scale: flyTo.scale } : {}}
-                transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-              >
-                <Image
-                  src="/images/logo/brinell-logo.png"
-                  alt="Brinell Maestranza Metalmecánica"
-                  width={640}
-                  height={232}
-                  priority
-                  className="h-auto w-full"
-                />
-              </motion.div>
+              <Image
+                src="/images/logo/brinell-logo.png"
+                alt="Brinell Maestranza Metalmecánica"
+                width={640}
+                height={232}
+                priority
+                className="h-auto w-full"
+              />
             </motion.div>
 
             {/* Punto de arco */}
