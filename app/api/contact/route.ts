@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { company } from "@/data/company";
 
 /**
  * Recibe el formulario y lo reenvía por correo.
@@ -7,7 +8,7 @@ import { NextResponse } from "next/server";
  * navegador ni queda expuesto a los rastreadores de direcciones.
  */
 
-const TO = process.env.CONTACT_TO ?? "felipe.rojo@alumnos.ucn.cl";
+const TO = process.env.CONTACT_TO ?? company.emails.maestranza;
 
 /**
  * Web3Forms responde en menos de un segundo. FormSubmit queda como

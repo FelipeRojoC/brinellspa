@@ -191,9 +191,8 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>(
     {},
   );
-  const [sent, setSent] = useState<"whatsapp" | "email" | null>(null);
+  const [sent, setSent] = useState<"whatsapp" | "email" | "mailto" | null>(null);
   const [sending, setSending] = useState(false);
-  const [failed, setFailed] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -242,7 +241,6 @@ export default function ContactForm() {
 
     // El correo se envía desde el servidor, sin abrir el cliente del visitante
     setSending(true);
-    setFailed(false);
     try {
       // Sin tope, un proveedor lento dejaba el botón girando para siempre
       const res = await fetch("/api/contact", {
@@ -254,7 +252,13 @@ export default function ContactForm() {
       if (!res.ok) throw new Error("envío rechazado");
       setSent("email");
     } catch {
-      setFailed(true);
+      // Si el servidor no logra despacharlo, al menos abrimos el correo
+      // del visitante con todo escrito, para que nadie quede sin salida.
+      const subject = `Cotización · ${fields.servicio} · ${fields.nombre}`;
+      window.location.href = `mailto:${company.emails.maestranza}?subject=${encodeURIComponent(
+        subject,
+      )}&body=${encodeURIComponent(buildMessage(fields).replace(/\*/g, ""))}`;
+      setSent("mailto");
     } finally {
       setSending(false);
     }
@@ -287,7 +291,9 @@ export default function ContactForm() {
             <p className="mt-4 max-w-md text-base leading-7 text-white/50">
               {sent === "whatsapp"
                 ? "Se abrió WhatsApp con tu solicitud redactada. Solo presiona enviar."
-                : "Recibimos tu solicitud por correo. Te respondemos a la brevedad."}
+                : sent === "mailto"
+                  ? "Se abrió tu correo con la solicitud redactada. Solo presiona enviar."
+                  : "Recibimos tu solicitud. Te respondemos a la brevedad."}
             </p>
             <button
               type="button"
@@ -381,17 +387,6 @@ export default function ContactForm() {
             </div>
 
             <AnimatePresence>
-              {failed && (
-                <motion.p
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="mt-4 text-sm text-red-400"
-                >
-                  No pudimos enviar el correo. Escríbenos por WhatsApp o a{" "}
-                  {company.emails.maestranza}.
-                </motion.p>
-              )}
               {missing.length > 0 && (
                 <motion.p
                   initial={{ opacity: 0, y: -6 }}
