@@ -8,7 +8,8 @@ const navItems = [
   { label: "Inicio", href: "#inicio" },
   { label: "Nosotros", href: "#nosotros" },
   { label: "Servicios", href: "#servicios" },
-  { label: "Capacidades", href: "#capacidades" },
+  { label: "Trabajos", href: "#trabajos" },
+  { label: "Clientes", href: "#clientes" },
   { label: "Contacto", href: "#contacto" },
 ];
 
@@ -62,6 +63,7 @@ export default function Navbar() {
             aria-label="Brinell - Inicio"
           >
             <Image
+              data-navbar-logo
               src="/images/logo/brinell-logo.png"
               alt="Brinell Maestranza Metalmecánica"
               width={220}

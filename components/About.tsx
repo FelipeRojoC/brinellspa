@@ -11,7 +11,7 @@ const sheet = [
   { k: "Fundación", v: String(company.founded) },
   { k: "Equipo", v: "Profesionales y técnicos con más de 20 años en el rubro" },
   { k: "Planta", v: `${company.address.street}, ${company.address.city}` },
-  { k: "Clientes", v: company.clients.join(" · ") },
+  { k: "Clientes", v: company.clients.map((c) => c.name).join(" · ") },
 ];
 
 export default function About() {
@@ -25,13 +25,13 @@ export default function About() {
   return (
     <section id="nosotros" className="relative bg-white text-[#151a24]">
       {/* Declaración editorial */}
-      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-28 lg:px-8 lg:py-36">
+      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 sm:pb-28 lg:px-8 lg:pb-36 lg:pt-28">
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: false, amount: 0.4 }}
           transition={{ duration: 0.9 }}
-          className="max-w-5xl text-3xl font-light leading-[1.3] tracking-[-0.03em] sm:text-4xl lg:text-[3.4rem] lg:leading-[1.2]"
+          className="max-w-5xl text-3xl font-medium leading-[1.25] tracking-[-0.035em] sm:text-4xl lg:text-[3.2rem] lg:leading-[1.15]"
         >
           Brinell es una maestranza metalmecánica de{" "}
           <em className="not-italic font-semibold text-brinell-blue">Antofagasta</em>.
@@ -48,7 +48,7 @@ export default function About() {
         <motion.dl
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, delay: 0.15 }}
           className="mt-16 grid border-l border-t border-[#151a24] font-mono text-sm sm:grid-cols-2 lg:mt-24 lg:grid-cols-3"
         >
@@ -83,10 +83,10 @@ export default function About() {
           <motion.blockquote
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="font-mono text-xs text-brinell-yellow">Misión</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow">Misión</span>
             <p className="mt-5 text-2xl font-semibold leading-snug tracking-[-0.02em] sm:text-3xl">
               {company.mission}
             </p>
@@ -95,11 +95,11 @@ export default function About() {
           <motion.blockquote
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="lg:border-l lg:border-white/15 lg:pl-20"
           >
-            <span className="font-mono text-xs text-brinell-yellow">Visión</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow">Visión</span>
             <p className="mt-5 text-2xl font-semibold leading-snug tracking-[-0.02em] sm:text-3xl">
               {company.vision}
             </p>

@@ -30,20 +30,59 @@ export const company = {
   vision:
     "Posicionarnos como una de las maestranzas metalmecánicas más competentes de la Segunda Región, creciendo en capital humano y nuevas tecnologías.",
 
-  clients: ["United", "GR", "Elecmetal", "DyR", "Servisab"],
+  clients: [
+    { name: "Molycop", logo: "/images/clients/molycop.png" },
+    { name: "Finning", logo: "/images/clients/finning.png" },
+    { name: "Vestas", logo: "/images/clients/vestas.png" },
+    { name: "Nordex", logo: "/images/clients/nordex.png" },
+    { name: "Elecmetal", logo: "/images/clients/elecmetal.png" },
+    { name: "GR Ingeniería", logo: "/images/clients/gr.png" },
+  ],
 
-  /** Lo que sale del taller, según los servicios publicados en brinell.cl */
-  capabilities: [
-    { item: "Herramientas especiales", service: "ingeniería y diseño de herramientas" },
-    { item: "Pernos especiales", service: "metrología y mecanizado" },
-    { item: "Elementos roscados", service: "metrología y mecanizado" },
-    { item: "Recuperación de roscas", service: "metrología y mecanizado" },
-    { item: "Extracción de pernos cortados", service: "metrología y mecanizado" },
-    { item: "Jaulas", service: "fabricación de estructuras" },
-    { item: "Plataformas", service: "fabricación de estructuras" },
-    { item: "Portales de izaje", service: "fabricación de estructuras" },
-    { item: "Arenado y granallado", service: "arenado y pintura industrial" },
-    { item: "Pintura industrial", service: "arenado y pintura industrial" },
+  /** Los 6 servicios oficiales de Brinell. No modificar sin confirmación. */
+  services: [
+    {
+      number: "01",
+      title: "Ingeniería y diseño de herramientas especiales",
+      short: "Ingeniería y diseño",
+      description:
+        "Desarrollo de herramientas especiales a medida para requerimientos específicos de la industria minera e industrial.",
+    },
+    {
+      number: "02",
+      title: "Fabricación mecánica en máquinas convencionales y CNC",
+      short: "Fabricación mecánica",
+      description:
+        "Mecanizado de precisión en torno, fresa y centros CNC para la fabricación de piezas y componentes industriales.",
+    },
+    {
+      number: "03",
+      title: "Recuperación integral de componentes hidráulicos",
+      short: "Componentes hidráulicos",
+      description:
+        "Reparación, rectificado y recuperación integral de cilindros y componentes hidráulicos.",
+    },
+    {
+      number: "04",
+      title: "Balanceo dinámico",
+      short: "Balanceo dinámico",
+      description:
+        "Equilibrado de precisión de rotores, ejes y componentes rotativos para eliminar vibración.",
+    },
+    {
+      number: "05",
+      title: "Fabricación, reparación y rediseño estructural",
+      short: "Estructuras",
+      description:
+        "Fabricación, reparación y rediseño de estructuras metálicas: plataformas, soportes, jaulas y portales de izaje.",
+    },
+    {
+      number: "06",
+      title: "Ensamble y extracción por interferencia mediante equipos hidráulicos",
+      short: "Ensamble por interferencia",
+      description:
+        "Montaje y desmontaje de componentes con ajuste por interferencia mediante equipos hidráulicos de alta presión.",
+    },
   ],
 } as const;
 

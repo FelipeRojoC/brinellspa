@@ -27,17 +27,6 @@ export default function Contact() {
     >
       {/* Fondo: grilla técnica + foco que sigue el cursor */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 100%)",
-        }}
-      />
-      <div
         ref={spotRef}
         aria-hidden
         className="section-spot pointer-events-none absolute inset-0 transition-opacity duration-700"
@@ -49,18 +38,15 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
           className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.3em] text-brinell-yellow">
-              Contacto
-            </p>
-            <h2 className="text-4xl font-bold leading-[0.95] tracking-[-0.045em] sm:text-5xl lg:text-7xl">
+            <h2 className="heading-hard text-4xl sm:text-5xl lg:text-7xl">
               Hablemos de
               <br />
-              <span className="text-brinell-blue">tu próximo proyecto.</span>
+              <em className="text-brinell-yellow">tu próximo proyecto</em>
             </h2>
           </div>
           <p className="max-w-xs text-sm leading-7 text-white/40 lg:pb-1 lg:text-right">
@@ -74,14 +60,14 @@ export default function Contact() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 1 }}
         className="relative h-[420px] overflow-hidden border-y border-white/[0.07] sm:h-[500px]"
       >
         <ContactMap />
         <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10 sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-sm">
           <div className="pointer-events-auto border border-white/10 bg-[#0b1019]/90 p-6 backdrop-blur-xl">
-            <p className="mb-3 font-mono text-xs text-brinell-yellow">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
               La Chimba · Antofagasta
             </p>
             <p className="text-base font-semibold tracking-[-0.02em]">
@@ -108,22 +94,19 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8 }}
           className="max-w-5xl"
         >
-          <p className="mb-8 font-mono text-xs text-brinell-yellow">
-            Solicitar cotización
-          </p>
           <ContactForm />
         </motion.div>
       </div>
 
       {/* INFO */}
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 lg:px-8 lg:pb-32 lg:pt-28">
-        <p className="mb-8 font-mono text-xs text-brinell-yellow">
+        <h3 className="mb-8 text-sm font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
           Contacto directo
-        </p>
+        </h3>
         <ContactInfo />
       </div>
     </section>

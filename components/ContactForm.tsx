@@ -308,7 +308,7 @@ export default function ContactForm() {
             </div>
 
             {/* La frase */}
-            <div className="relative z-20 text-2xl font-light leading-[1.8] tracking-[-0.02em] text-white/85 sm:text-3xl sm:leading-[1.75] lg:text-[2.6rem] lg:leading-[1.7]">
+            <div className="relative z-20 text-2xl font-medium leading-[1.7] tracking-[-0.025em] text-white sm:text-3xl sm:leading-[1.65] lg:text-[2.4rem] lg:leading-[1.6]">
               Hola Brinell, soy
               <Blank
                 value={fields.nombre}
@@ -358,7 +358,7 @@ export default function ContactForm() {
                 value={fields.mensaje}
                 onChange={(e) => set("mensaje")(e.target.value)}
                 placeholder="Detalle: piezas, cantidades, planos, plazos…"
-                className={`min-h-[5.5rem] w-full resize-none overflow-hidden border-b-2 bg-transparent pb-4 pt-2 text-lg font-light leading-8 text-white outline-none transition-colors duration-300 placeholder:text-white/25 focus:border-brinell-yellow sm:text-xl ${
+                className={`min-h-[5.5rem] w-full resize-none overflow-hidden border-b-2 bg-transparent pb-4 pt-2 text-lg leading-8 text-white outline-none transition-colors duration-300 placeholder:text-white/30 focus:border-brinell-yellow sm:text-xl ${
                   errors.mensaje ? "border-red-400" : "border-white/20"
                 }`}
               />
