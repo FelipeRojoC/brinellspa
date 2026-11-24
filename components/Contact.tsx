@@ -38,7 +38,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7 }}
           className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
         >
@@ -60,7 +60,7 @@ export default function Contact() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 1 }}
         className="relative h-[420px] overflow-hidden border-y border-white/[0.07] sm:h-[500px]"
       >
@@ -94,7 +94,7 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 0.8 }}
           className="max-w-5xl"
         >

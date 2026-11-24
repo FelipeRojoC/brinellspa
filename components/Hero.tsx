@@ -47,8 +47,6 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0d12] via-[#0a0d12]/80 to-[#0a0d12]/30" />
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#0a0d12] to-transparent" />
 
-      {/* Plancha estriada al pie, que luego funde hacia la sección clara */}
-      <div className="plate absolute inset-x-0 bottom-0 h-48 opacity-25 [mask-image:linear-gradient(to_top,#000,transparent)]" />
 
       <HeroSparks />
 

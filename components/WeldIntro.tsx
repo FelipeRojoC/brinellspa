@@ -205,16 +205,21 @@ export default function WeldIntro() {
           />
 
           <div ref={logoRef} className="relative w-[min(78vw,520px)]">
-            {/* Contorno apagado */}
-            <Image
-              src="/images/logo/brinell-logo.png"
-              alt=""
+            {/* Contorno apagado: guía la soldadura y desaparece al terminar */}
+            <motion.div
               aria-hidden
-              width={640}
-              height={232}
-              priority
-              className="h-auto w-full opacity-[0.07] brightness-0 invert"
-            />
+              animate={{ opacity: welded ? 0 : 0.07 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Image
+                src="/images/logo/brinell-logo.png"
+                alt=""
+                width={640}
+                height={232}
+                priority
+                className="h-auto w-full brightness-0 invert"
+              />
+            </motion.div>
 
             {/* Logo que se revela a medida que avanza la soldadura */}
             <motion.div

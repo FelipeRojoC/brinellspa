@@ -50,7 +50,7 @@ export default function Reveal({
     <Tag
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount }}
+      viewport={{ once: false, amount }}
       variants={{
         hidden: variants[from].hidden,
         show: {

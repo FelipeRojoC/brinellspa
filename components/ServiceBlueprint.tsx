@@ -99,7 +99,7 @@ export default function ServiceBlueprint({ number }: { number: string }) {
       aria-hidden
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ once: false, amount: 0.5 }}
       className="absolute inset-0 h-full w-full text-white/35 transition-colors duration-500 group-hover:text-white/60"
     >
       {/* Retícula de plano */}

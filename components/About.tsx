@@ -29,7 +29,7 @@ export default function About() {
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: false, amount: 0.4 }}
           transition={{ duration: 0.9 }}
           className="max-w-5xl text-3xl font-medium leading-[1.25] tracking-[-0.035em] sm:text-4xl lg:text-[3.2rem] lg:leading-[1.15]"
         >
@@ -48,7 +48,7 @@ export default function About() {
         <motion.dl
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, delay: 0.15 }}
           className="mt-16 grid border-l border-t border-[#151a24] font-mono text-sm sm:grid-cols-2 lg:mt-24 lg:grid-cols-3"
         >
@@ -83,7 +83,7 @@ export default function About() {
           <motion.blockquote
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 0.8 }}
           >
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow">Misión</span>
@@ -95,7 +95,7 @@ export default function About() {
           <motion.blockquote
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="lg:border-l lg:border-white/15 lg:pl-20"
           >
