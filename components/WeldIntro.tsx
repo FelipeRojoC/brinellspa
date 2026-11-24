@@ -264,7 +264,7 @@ export default function WeldIntro() {
             <button
               type="button"
               onClick={() => setPhase("done")}
-              className="absolute bottom-8 right-8 font-mono text-xs text-white/35 transition-colors hover:text-white"
+              className="absolute bottom-8 right-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35 transition-colors hover:text-white"
             >
               Omitir
             </button>

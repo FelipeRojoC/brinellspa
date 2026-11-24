@@ -3,10 +3,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import { company } from "@/data/company";
 import Reveal, { RevealItem } from "./Reveal";
 
 const services = company.services;
+
+/* Fotos del taller disponibles; las demás fichas usan tratamiento tipográfico. */
+const panelPhoto: Record<string, string> = {
+  "02": "/images/hero/hero-main.jpg",
+  "05": "/images/about/about-main.jpg",
+};
 
 export default function Services() {
   const [active, setActive] = useState(0);
@@ -18,12 +25,13 @@ export default function Services() {
       className="relative overflow-hidden bg-[#f5f6f8] py-24 sm:py-28 lg:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <Reveal className="mb-14 flex flex-wrap items-baseline justify-between gap-4">
+        <Reveal className="mb-14 max-w-3xl">
           <h2 className="heading-hard text-4xl text-[#151a24] sm:text-5xl lg:text-6xl">
             Nuestros <em className="text-brinell-blue">servicios</em>
           </h2>
-          <p className="font-mono text-xs text-[#9aa3b2]">
-            06 líneas de trabajo
+          <p className="mt-5 text-base leading-7 text-[#687386]">
+            Seis líneas de trabajo para la industria minera e industrial del
+            norte de Chile.
           </p>
         </Reveal>
 
@@ -46,7 +54,7 @@ export default function Services() {
                   }`}
                 >
                   <span
-                    className={`min-w-[28px] font-mono text-xs transition-colors duration-300 ${
+                    className={`min-w-[28px] text-sm font-semibold transition-colors duration-300 ${
                       isActive ? "text-brinell-blue" : "text-[#a3aab5]"
                     }`}
                   >
@@ -83,15 +91,21 @@ export default function Services() {
           </Reveal>
 
           {/* PANEL */}
-          <Reveal from="right" className="plate relative min-h-[420px] overflow-hidden lg:sticky lg:top-28 lg:self-start">
+          <Reveal from="right" className="relative min-h-[460px] overflow-hidden bg-[#0b1019] lg:sticky lg:top-28 lg:self-start">
+            {panelPhoto[current.number] && (
+              <Image
+                key={`photo-${current.number}`}
+                src={panelPhoto[current.number]}
+                alt=""
+                aria-hidden
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="animate-[fadeIn_600ms_ease-out] object-cover"
+              />
+            )}
             <div
               aria-hidden
-              className="absolute inset-0 opacity-[0.055]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)",
-                backgroundSize: "65px 65px",
-              }}
+              className="absolute inset-0 bg-gradient-to-br from-[#0b1019] via-[#0b1019]/92 to-[#0b1019]/75"
             />
             <motion.div
               key={`glow-${current.number}`}
@@ -102,8 +116,8 @@ export default function Services() {
             />
 
             <div className="relative flex min-h-[420px] flex-col justify-between p-8 sm:p-10 lg:p-12">
-              <span className="font-mono text-sm text-brinell-yellow">
-                {current.number} / 06
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow">
+                Servicio {current.number}
               </span>
 
               <AnimatePresence mode="wait">

@@ -91,7 +91,7 @@ export default function About() {
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="font-mono text-xs text-brinell-yellow">Misión</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow">Misión</span>
             <p className="mt-5 text-2xl font-semibold leading-snug tracking-[-0.02em] sm:text-3xl">
               {company.mission}
             </p>
@@ -104,7 +104,7 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="lg:border-l lg:border-white/15 lg:pl-20"
           >
-            <span className="font-mono text-xs text-brinell-yellow">Visión</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brinell-yellow">Visión</span>
             <p className="mt-5 text-2xl font-semibold leading-snug tracking-[-0.02em] sm:text-3xl">
               {company.vision}
             </p>

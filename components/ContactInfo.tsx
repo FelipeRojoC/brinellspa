@@ -72,7 +72,7 @@ function SpotlightCard({
 }
 
 const Label = ({ children }: { children: ReactNode }) => (
-  <p className="mb-3 flex items-center gap-2 font-mono text-xs text-brinell-yellow">
+  <p className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
     {children}
   </p>
 );

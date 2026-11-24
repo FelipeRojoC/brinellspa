@@ -23,7 +23,7 @@ export default function Contact() {
     <section
       id="contacto"
       onMouseMove={onMove}
-      className="plate plate-veil relative overflow-hidden text-white"
+      className="relative overflow-hidden bg-[#070a10] text-white"
     >
       {/* Fondo: grilla técnica + foco que sigue el cursor */}
       <div
@@ -43,9 +43,6 @@ export default function Contact() {
           className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.3em] text-brinell-yellow">
-              Contacto
-            </p>
             <h2 className="heading-hard text-4xl sm:text-5xl lg:text-7xl">
               Hablemos de
               <br />
@@ -70,7 +67,7 @@ export default function Contact() {
         <ContactMap />
         <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10 sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-sm">
           <div className="pointer-events-auto border border-white/10 bg-[#0b1019]/90 p-6 backdrop-blur-xl">
-            <p className="mb-3 font-mono text-xs text-brinell-yellow">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
               La Chimba · Antofagasta
             </p>
             <p className="text-base font-semibold tracking-[-0.02em]">
@@ -101,18 +98,15 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           className="max-w-5xl"
         >
-          <p className="mb-8 font-mono text-xs text-brinell-yellow">
-            Solicitar cotización
-          </p>
           <ContactForm />
         </motion.div>
       </div>
 
       {/* INFO */}
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 lg:px-8 lg:pb-32 lg:pt-28">
-        <p className="mb-8 font-mono text-xs text-brinell-yellow">
+        <h3 className="mb-8 text-sm font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
           Contacto directo
-        </p>
+        </h3>
         <ContactInfo />
       </div>
     </section>

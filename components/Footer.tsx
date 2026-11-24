@@ -17,7 +17,10 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="plate plate-veil relative overflow-hidden text-white">
+    <footer className="relative overflow-hidden bg-[#05070a] text-white">
+      {/* Remate de plancha, sin texto encima */}
+      <div aria-hidden className="plate-strip plate-strip-bottom h-20 w-full" />
+
       {/* Marca de agua gigante */}
       <div
         aria-hidden

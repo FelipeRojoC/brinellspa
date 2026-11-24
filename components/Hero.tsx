@@ -9,13 +9,6 @@ import { company } from "@/data/company";
 
 const HeroSparks = dynamic(() => import("./HeroSparks"), { ssr: false });
 
-const facts = [
-  { value: String(company.founded), label: "Año de fundación" },
-  { value: "+20 años", label: "Experiencia del equipo" },
-  { value: "06", label: "Líneas de servicio" },
-  { value: "Antofagasta", label: "La Chimba" },
-];
-
 export default function Hero() {
   const photoRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +57,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mb-5 font-mono text-sm text-brinell-yellow"
+          className="mb-5 text-sm font-semibold uppercase tracking-[0.18em] text-brinell-yellow"
         >
           Maestranza metalmecánica
           <span className="text-white/40"> / Antofagasta / desde {company.founded}</span>
@@ -119,27 +112,6 @@ export default function Hero() {
           </a>
         </motion.div>
 
-        {/* Datos */}
-        <motion.dl
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.65 }}
-          className="mt-12 grid max-w-4xl grid-cols-2 gap-px border border-white/10 bg-white/10 backdrop-blur-md sm:grid-cols-4"
-        >
-          {facts.map((f) => (
-            <div
-              key={f.label}
-              className="group bg-[#0a0d12]/80 px-5 py-4 transition-colors duration-300 hover:bg-[#0a0d12]/40"
-            >
-              <dt className="text-xl font-bold tracking-[-0.03em] text-brinell-blue transition-colors duration-300 group-hover:text-brinell-yellow sm:text-2xl">
-                {f.value}
-              </dt>
-              <dd className="mt-1 font-mono text-[11px] leading-4 text-white/45">
-                {f.label}
-              </dd>
-            </div>
-          ))}
-        </motion.dl>
       </div>
 
       <motion.a
@@ -147,7 +119,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-8 right-6 z-10 hidden items-center gap-3 font-mono text-xs text-white/35 transition-colors hover:text-white lg:right-8 lg:flex"
+        className="absolute bottom-8 right-6 z-10 hidden items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/35 transition-colors hover:text-white lg:right-8 lg:flex"
       >
         <span className="relative flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1.5">
           <motion.span

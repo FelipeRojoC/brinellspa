@@ -170,7 +170,7 @@ export default function ContactMap() {
       <div ref={containerRef} className="h-full w-full" />
 
       {/* Satélite / Mapa */}
-      <div className="absolute right-3 top-3 z-10 flex border border-white/15 bg-[#0b1019]/85 font-mono text-[11px] backdrop-blur-md sm:right-14">
+      <div className="absolute right-3 top-3 z-10 flex border border-white/15 bg-[#0b1019]/85 text-[11px] font-semibold backdrop-blur-md sm:right-14">
         {(["Satélite", "Mapa"] as const).map((label) => {
           const active = satellite === (label === "Satélite");
           return (

@@ -259,13 +259,18 @@ a {
   background-size: 232px 232px;
   background-repeat: repeat;
 }
-.plate-veil::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(10, 13, 18, 0.2), rgba(7, 10, 16, 0.82));
+/* Franja decorativa de plancha: nunca lleva texto encima */
+.plate-strip {
+  background-color: #0a0d12;
+  background-image: url("/images/textures/diamond-plate.png");
+  background-size: 232px 232px;
+  background-repeat: repeat;
+}
+.plate-strip-top {
+  mask-image: linear-gradient(to bottom, #000, transparent);
+}
+.plate-strip-bottom {
+  mask-image: linear-gradient(to top, #000, transparent);
 }
 
 /* Título de sección: pesado, en caja alta, con acento amarillo */
@@ -277,4 +282,9 @@ a {
 }
 .heading-hard em {
   font-style: normal;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
