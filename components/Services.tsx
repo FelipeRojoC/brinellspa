@@ -107,12 +107,13 @@ export default function Services() {
               aria-hidden
               className="absolute inset-0 bg-gradient-to-br from-[#0b1019] via-[#0b1019]/92 to-[#0b1019]/75"
             />
-            <motion.div
-              key={`glow-${current.number}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="pointer-events-none absolute -right-24 -top-24 h-[350px] w-[350px] rounded-full bg-brinell-blue/20 blur-[100px]"
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-24 -top-24 h-[350px] w-[350px]"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(54,120,228,0.22), transparent)",
+              }}
             />
 
             <div className="relative flex min-h-[420px] flex-col justify-between p-8 sm:p-10 lg:p-12">

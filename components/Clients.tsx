@@ -11,7 +11,14 @@ export default function Clients() {
       id="clientes"
       className="relative overflow-hidden bg-white py-20 text-[#151a24] sm:py-24"
     >
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brinell-blue/[0.06] blur-[160px]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(54,120,228,0.08), transparent)",
+        }}
+      />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <Reveal className="mb-12 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

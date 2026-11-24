@@ -18,8 +18,17 @@ type Spark = {
 const WELD_MS = 2200;
 const COOL_MS = 700;
 
+/** En equipos modestos la soldadura lanza menos chispas. */
+let lowPower = false;
+
 export default function WeldIntro() {
-  const [phase, setPhase] = useState<"weld" | "fly" | "done">("weld");
+  const [phase, setPhase] = useState<"weld" | "fly" | "done">(() => {
+    if (typeof window === "undefined") return "weld";
+    lowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "done"
+      : "weld";
+  });
   const [progress, setProgress] = useState(0);
   const [flyTo, setFlyTo] = useState<{ x: number; y: number; scale: number } | null>(null);
 
@@ -46,7 +55,7 @@ export default function WeldIntro() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const resize = () => {
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
@@ -86,7 +95,7 @@ export default function WeldIntro() {
       const box = logoRef.current?.getBoundingClientRect();
       if (box && p < 1) {
         const wobble = Math.sin(elapsed / 55) * box.height * 0.1;
-        spawn(box.left + box.width * p, box.top + box.height / 2 + wobble, 16);
+        spawn(box.left + box.width * p, box.top + box.height / 2 + wobble, lowPower ? 5 : 11);
       }
 
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -126,13 +135,6 @@ export default function WeldIntro() {
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(s.x - s.vx * 3.2, s.y - s.vy * 3.2);
         ctx.stroke();
-
-        // halo
-        ctx.globalAlpha = t * 0.3;
-        ctx.fillStyle = s.hot ? "#ffdf8a" : "#ff9c2e";
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size * t * 3.2, 0, Math.PI * 2);
-        ctx.fill();
 
         // núcleo
         ctx.globalAlpha = t;
@@ -201,7 +203,11 @@ export default function WeldIntro() {
                 ? { duration: COOL_MS / 1000 }
                 : { duration: 0.12, repeat: Infinity, repeatType: "mirror" }
             }
-            className="pointer-events-none absolute h-[620px] w-[620px] rounded-full bg-[#9ec5ff]/30 blur-[150px]"
+            className="pointer-events-none absolute h-[620px] w-[620px]"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(158,197,255,0.3), transparent)",
+            }}
           />
 
           <div ref={logoRef} className="relative w-[min(78vw,520px)]">

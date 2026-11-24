@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useRef, type MouseEvent } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 import { company } from "@/data/company";
@@ -12,14 +12,25 @@ const HeroSparks = dynamic(() => import("./HeroSparks"), { ssr: false });
 export default function Hero() {
   const photoRef = useRef<HTMLDivElement>(null);
 
+  const target = useRef({ x: 0, y: 0 });
+  const raf = useRef(0);
+
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
+
   const onMove = (e: MouseEvent<HTMLElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
-    const dx = (e.clientX - r.left) / r.width - 0.5;
-    const dy = (e.clientY - r.top) / r.height - 0.5;
-    photoRef.current?.style.setProperty(
-      "transform",
-      `scale(1.08) translate3d(${dx * -22}px, ${dy * -16}px, 0)`,
-    );
+    target.current = {
+      x: ((e.clientX - r.left) / r.width - 0.5) * -22,
+      y: ((e.clientY - r.top) / r.height - 0.5) * -16,
+    };
+    if (raf.current) return;
+    raf.current = requestAnimationFrame(() => {
+      raf.current = 0;
+      const { x, y } = target.current;
+      if (photoRef.current) {
+        photoRef.current.style.transform = `scale(1.08) translate3d(${x}px, ${y}px, 0)`;
+      }
+    });
   };
 
   return (
@@ -100,7 +111,7 @@ export default function Hero() {
 
           <a
             href="#servicios"
-            className="group inline-flex items-center justify-center gap-3 border border-white/25 px-8 py-4 text-sm font-bold uppercase tracking-[0.05em] text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/5"
+            className="group inline-flex items-center justify-center gap-3 border border-white/25 px-8 py-4 text-sm font-bold uppercase tracking-[0.05em] text-white transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/5"
           >
             Ver servicios
             <ArrowUpRight

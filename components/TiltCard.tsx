@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, type MouseEvent, type ReactNode } from "react";
 
 /** Tarjeta que se inclina siguiendo el cursor y proyecta un brillo en ese punto. */
 export default function TiltCard({
@@ -13,19 +13,34 @@ export default function TiltCard({
   max?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const pos = useRef({ x: 0.5, y: 0.5 });
+  const raf = useRef(0);
+
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width;
-    const py = (e.clientY - r.top) / r.height;
-    el.style.setProperty("--x", `${px * 100}%`);
-    el.style.setProperty("--y", `${py * 100}%`);
-    el.style.transform = `perspective(900px) rotateX(${(0.5 - py) * max}deg) rotateY(${(px - 0.5) * max}deg) translateZ(0)`;
+    pos.current = {
+      x: (e.clientX - r.left) / r.width,
+      y: (e.clientY - r.top) / r.height,
+    };
+    if (raf.current) return;
+    raf.current = requestAnimationFrame(() => {
+      raf.current = 0;
+      const el2 = ref.current;
+      if (!el2) return;
+      const { x, y } = pos.current;
+      el2.style.setProperty("--x", `${x * 100}%`);
+      el2.style.setProperty("--y", `${y * 100}%`);
+      el2.style.transform = `perspective(900px) rotateX(${(0.5 - y) * max}deg) rotateY(${(x - 0.5) * max}deg) translateZ(0)`;
+    });
   };
 
   const reset = () => {
+    cancelAnimationFrame(raf.current);
+    raf.current = 0;
     const el = ref.current;
     if (!el) return;
     el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";

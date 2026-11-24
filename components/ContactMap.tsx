@@ -155,6 +155,7 @@ export default function ContactMap() {
     };
 
     map.once("moveend", () => {
+      if (document.hidden) return;
       rotating = true;
       spin();
       map.once("mousedown", stop);
@@ -162,7 +163,15 @@ export default function ContactMap() {
       map.once("wheel", stop);
     });
 
-    return stop;
+    const onHide = () => {
+      if (document.hidden) stop();
+    };
+    document.addEventListener("visibilitychange", onHide);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onHide);
+    };
   }, [ready, inView, flown]);
 
   return (

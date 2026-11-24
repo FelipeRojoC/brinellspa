@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRef, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { company, googleMapsUrl } from "@/data/company";
@@ -9,6 +9,34 @@ import ContactForm from "./ContactForm";
 import ContactInfo from "./ContactInfo";
 
 const ContactMap = dynamic(() => import("./ContactMap"), { ssr: false });
+
+/** Monta el mapa sólo cuando está por entrar en pantalla. */
+function LazyMap() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShow(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="h-full w-full">
+      {show ? <ContactMap /> : <div className="h-full w-full bg-[#0e1116]" />}
+    </div>
+  );
+}
 
 export default function Contact() {
   const spotRef = useRef<HTMLDivElement>(null);
@@ -31,7 +59,14 @@ export default function Contact() {
         aria-hidden
         className="section-spot pointer-events-none absolute inset-0 transition-opacity duration-700"
       />
-      <div className="pointer-events-none absolute -right-40 top-40 h-[600px] w-[600px] rounded-full bg-brinell-yellow/[0.05] blur-[160px]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-40 top-40 h-[600px] w-[600px]"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(240,204,66,0.07), transparent)",
+        }}
+      />
 
       {/* CABECERA */}
       <div className="relative mx-auto max-w-7xl px-6 pt-24 sm:pt-28 lg:px-8 lg:pt-32">
@@ -64,7 +99,7 @@ export default function Contact() {
         transition={{ duration: 1 }}
         className="relative h-[420px] overflow-hidden border-y border-white/[0.07] sm:h-[500px]"
       >
-        <ContactMap />
+        <LazyMap />
         <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10 sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-sm">
           <div className="pointer-events-auto border border-white/10 bg-[#0b1019]/90 p-6 backdrop-blur-xl">
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
