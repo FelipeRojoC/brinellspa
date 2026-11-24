@@ -36,7 +36,7 @@ export const company = {
     { name: "Vestas", logo: "/images/clients/vestas.png" },
     { name: "Nordex", logo: "/images/clients/nordex.png" },
     { name: "Elecmetal", logo: "/images/clients/elecmetal.png" },
-    { name: "GR Ingeniería", logo: null },
+    { name: "GR Ingeniería", logo: "/images/clients/gr.png" },
   ],
 
   /** Los 6 servicios oficiales de Brinell. No modificar sin confirmación. */

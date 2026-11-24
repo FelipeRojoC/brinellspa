@@ -30,22 +30,13 @@ export default function Clients() {
                 max={5}
                 className="relative flex h-32 items-center justify-center overflow-hidden bg-white px-6 sm:h-40 sm:px-10"
               >
-                {client.logo ? (
-                  <Image
-                    src={client.logo}
-                    alt={client.name}
-                    width={320}
-                    height={120}
-                    className="max-h-[56px] w-auto object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0 sm:max-h-[64px]"
-                  />
-                ) : (
-                  <span className="text-center text-2xl font-bold uppercase leading-none tracking-[-0.03em] text-[#151a24]/35 transition-colors duration-500 group-hover:text-[#151a24] sm:text-3xl">
-                    GR
-                    <span className="mt-1 block text-[10px] font-semibold tracking-[0.2em]">
-                      Ingeniería
-                    </span>
-                  </span>
-                )}
+                <Image
+                src={client.logo}
+                alt={client.name}
+                width={320}
+                height={120}
+                className="max-h-[56px] w-auto object-contain opacity-70 transition-opacity duration-500 group-hover:opacity-100 sm:max-h-[64px]"
+              />
 
                 <span className="absolute bottom-0 left-0 h-[3px] w-0 bg-brinell-blue transition-all duration-500 group-hover:w-full" />
               </TiltCard>
