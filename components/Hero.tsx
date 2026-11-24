@@ -54,17 +54,17 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#0a0d12] via-[#0a0d12]/80 to-[#0a0d12]/30" />
       <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#0a0d12] to-transparent" />
 
-      {/* Plancha estriada en el borde inferior, enlaza con el resto */}
-      <div className="plate absolute inset-x-0 bottom-0 h-40 opacity-30 [mask-image:linear-gradient(to_top,#000,transparent)]" />
+      {/* Plancha estriada al pie, que luego funde hacia la sección clara */}
+      <div className="plate absolute inset-x-0 bottom-0 h-48 opacity-25 [mask-image:linear-gradient(to_top,#000,transparent)]" />
 
       <HeroSparks />
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 pb-28 pt-32 lg:px-8">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 pb-20 pt-28 lg:px-8">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="mb-7 font-mono text-sm text-brinell-yellow"
+          className="mb-5 font-mono text-sm text-brinell-yellow"
         >
           Maestranza metalmecánica
           <span className="text-white/40"> / Antofagasta / desde {company.founded}</span>
@@ -74,7 +74,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="heading-hard max-w-5xl text-5xl text-white sm:text-6xl md:text-7xl lg:text-[5.6rem]"
+          className="heading-hard max-w-5xl text-[clamp(2.4rem,7vw,5rem)] text-white"
         >
           Mecanizado de precisión y{" "}
           <em className="text-brinell-blue">recuperación de componentes</em>
@@ -84,7 +84,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="mt-8 max-w-2xl text-lg leading-8 text-white/70"
+          className="mt-6 max-w-2xl text-base leading-7 text-white/70 sm:text-lg sm:leading-8"
         >
           Fabricamos, mecanizamos y recuperamos piezas críticas para la
           industria minera e industrial del norte de Chile.
@@ -94,11 +94,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-10 flex flex-col gap-4 sm:flex-row"
+          className="mt-8 flex flex-col gap-4 sm:flex-row"
         >
           <a
             href="#contacto"
-            className="group inline-flex items-center justify-center gap-3 bg-brinell-yellow px-8 py-4 text-sm font-bold uppercase tracking-[0.05em] text-[#0a0d12] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_45px_rgba(238,205,95,0.3)]"
+            className="group inline-flex items-center justify-center gap-3 bg-brinell-yellow px-8 py-4 text-sm font-bold uppercase tracking-[0.05em] text-[#0a0d12] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_45px_rgba(240, 204, 66,0.3)]"
           >
             Solicitar cotización
             <ArrowUpRight
@@ -124,12 +124,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.65 }}
-          className="mt-16 grid max-w-4xl grid-cols-2 gap-px border border-white/10 bg-white/10 backdrop-blur-md sm:grid-cols-4"
+          className="mt-12 grid max-w-4xl grid-cols-2 gap-px border border-white/10 bg-white/10 backdrop-blur-md sm:grid-cols-4"
         >
           {facts.map((f) => (
             <div
               key={f.label}
-              className="group bg-[#0a0d12]/80 px-5 py-5 transition-colors duration-300 hover:bg-[#0a0d12]/40"
+              className="group bg-[#0a0d12]/80 px-5 py-4 transition-colors duration-300 hover:bg-[#0a0d12]/40"
             >
               <dt className="text-xl font-bold tracking-[-0.03em] text-brinell-blue transition-colors duration-300 group-hover:text-brinell-yellow sm:text-2xl">
                 {f.value}

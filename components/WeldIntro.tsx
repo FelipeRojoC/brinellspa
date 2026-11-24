@@ -248,7 +248,7 @@ export default function WeldIntro() {
                 aria-hidden
                 animate={{ opacity: [1, 0.55, 1], scale: [1, 1.35, 1] }}
                 transition={{ duration: 0.09, repeat: Infinity }}
-                className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_30px_14px_rgba(158,197,255,0.85),0_0_70px_30px_rgba(238,205,95,0.45)]"
+                className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_30px_14px_rgba(158,197,255,0.85),0_0_70px_30px_rgba(240, 204, 66,0.45)]"
                 style={{ left: `${progress * 100}%` }}
               />
             )}

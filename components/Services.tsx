@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { company } from "@/data/company";
+import Reveal, { RevealItem } from "./Reveal";
 
 const services = company.services;
 
@@ -17,23 +18,23 @@ export default function Services() {
       className="relative overflow-hidden bg-[#f5f6f8] py-24 sm:py-28 lg:py-32"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mb-14 flex items-baseline justify-between gap-6">
+        <Reveal className="mb-14 flex flex-wrap items-baseline justify-between gap-4">
           <h2 className="heading-hard text-4xl text-[#151a24] sm:text-5xl lg:text-6xl">
             Nuestros <em className="text-brinell-blue">servicios</em>
           </h2>
           <p className="font-mono text-xs text-[#9aa3b2]">
             06 líneas de trabajo
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
           {/* LISTA */}
-          <div className="border-t border-[#dfe3e9]">
+          <Reveal stagger={0.07} amount={0.1} className="border-t border-[#dfe3e9]">
             {services.map((service, index) => {
               const isActive = active === index;
               return (
+                <RevealItem key={service.number}>
                 <button
-                  key={service.number}
                   type="button"
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
@@ -76,12 +77,13 @@ export default function Services() {
                     }`}
                   />
                 </button>
+                </RevealItem>
               );
             })}
-          </div>
+          </Reveal>
 
           {/* PANEL */}
-          <div className="plate relative min-h-[420px] overflow-hidden lg:sticky lg:top-28 lg:self-start">
+          <Reveal from="right" className="plate relative min-h-[420px] overflow-hidden lg:sticky lg:top-28 lg:self-start">
             <div
               aria-hidden
               className="absolute inset-0 opacity-[0.055]"
@@ -146,7 +148,7 @@ export default function Services() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -5,9 +5,11 @@
      BRINELL — BRAND COLORS
      ================================ */
 
-  --brinell-blue: #4978de;
-  --brinell-blue-dark: #315db8;
-  --brinell-yellow: #eecd5f;
+  /* Muestreados del logotipo oficial */
+  --brinell-blue: #3678e4;
+  --brinell-blue-dark: #2b60b6;
+  --brinell-yellow: #f0cc42;
+  --brinell-yellow-dark: #cfae2e;
 
   /* ================================
      BACKGROUNDS
@@ -39,6 +41,7 @@
   --color-brinell-blue: var(--brinell-blue);
   --color-brinell-blue-dark: var(--brinell-blue-dark);
   --color-brinell-yellow: var(--brinell-yellow);
+  --color-brinell-yellow-dark: var(--brinell-yellow-dark);
 
   --color-surface: var(--surface);
 
@@ -136,7 +139,7 @@ a {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(73, 120, 222, 0.35);
+  background: rgba(54, 120, 228, 0.35);
   transform: translate(-50%, 50%);
   animation: marker-pulse 2.2s ease-out infinite;
 }
@@ -208,7 +211,7 @@ a {
   background:
     radial-gradient(
       420px circle at var(--x, 50%) var(--y, 50%),
-      rgba(238, 205, 95, 0.14),
+      rgba(240, 204, 66, 0.14),
       transparent 45%
     );
 }
@@ -219,7 +222,7 @@ a {
   padding: 1px;
   background: radial-gradient(
     300px circle at var(--x, 50%) var(--y, 50%),
-    rgba(238, 205, 95, 0.7),
+    rgba(240, 204, 66, 0.7),
     transparent 60%
   );
   -webkit-mask:
@@ -243,7 +246,7 @@ a {
   background:
     radial-gradient(
       700px circle at var(--mx, 50%) var(--my, 30%),
-      rgba(73, 120, 222, 0.16),
+      rgba(54, 120, 228, 0.16),
       transparent 60%
     );
 }
@@ -253,7 +256,7 @@ a {
   background-color: #0a0d12;
   /* el mosaico es de 512px y se dibuja a 256 → doble densidad en pantallas retina */
   background-image: url("/images/textures/diamond-plate.png");
-  background-size: 256px 256px;
+  background-size: 232px 232px;
   background-repeat: repeat;
 }
 .plate-veil::before {

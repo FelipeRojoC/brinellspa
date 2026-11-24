@@ -11,7 +11,7 @@ const sheet = [
   { k: "Fundación", v: String(company.founded) },
   { k: "Equipo", v: "Profesionales y técnicos con más de 20 años en el rubro" },
   { k: "Planta", v: `${company.address.street}, ${company.address.city}` },
-  { k: "Clientes", v: company.clients.join(" · ") },
+  { k: "Clientes", v: company.clients.map((c) => c.name).join(" · ") },
 ];
 
 export default function About() {
@@ -24,8 +24,13 @@ export default function About() {
 
   return (
     <section id="nosotros" className="relative bg-white text-[#151a24]">
+      {/* Funde desde el hero oscuro hacia el blanco, sin corte */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0a0d12] to-transparent"
+      />
       {/* Declaración editorial */}
-      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-28 lg:px-8 lg:py-36">
+      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-28 sm:pb-28 lg:px-8 lg:pb-36 lg:pt-36">
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
