@@ -49,7 +49,7 @@ export default function Contact() {
             <h2 className="heading-hard text-4xl sm:text-5xl lg:text-7xl">
               Hablemos de
               <br />
-              <em>tu próximo proyecto</em>
+              <em className="text-brinell-yellow">tu próximo proyecto</em>
             </h2>
           </div>
           <p className="max-w-xs text-sm leading-7 text-white/40 lg:pb-1 lg:text-right">

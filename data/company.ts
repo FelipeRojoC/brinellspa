@@ -78,10 +78,10 @@ export const company = {
     },
     {
       number: "06",
-      title: "Granallado y pintura industrial",
-      short: "Granallado y pintura",
+      title: "Ensamble y extracción por interferencia mediante equipos hidráulicos",
+      short: "Ensamble por interferencia",
       description:
-        "Preparación superficial mediante granallado y aplicación de recubrimientos y pintura industrial.",
+        "Montaje y desmontaje de componentes con ajuste por interferencia mediante equipos hidráulicos de alta presión.",
     },
   ],
 } as const;

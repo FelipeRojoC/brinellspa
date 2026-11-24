@@ -2,20 +2,45 @@
 
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { ArrowUpRight, MousePointer2 } from "lucide-react";
+import { useRef, type MouseEvent } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
+import { company } from "@/data/company";
 
-// Escena WebGL solo en cliente (three.js no se renderiza en servidor)
-const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
+const HeroSparks = dynamic(() => import("./HeroSparks"), { ssr: false });
+
+const facts = [
+  { value: String(company.founded), label: "Año de fundación" },
+  { value: "+20 años", label: "Experiencia del equipo" },
+  { value: "06", label: "Líneas de servicio" },
+  { value: "Antofagasta", label: "La Chimba" },
+];
 
 export default function Hero() {
+  const photoRef = useRef<HTMLDivElement>(null);
+
+  const onMove = (e: MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const dx = (e.clientX - r.left) / r.width - 0.5;
+    const dy = (e.clientY - r.top) / r.height - 0.5;
+    photoRef.current?.style.setProperty(
+      "transform",
+      `scale(1.08) translate3d(${dx * -22}px, ${dy * -16}px, 0)`,
+    );
+  };
+
   return (
     <section
       id="inicio"
-      className="relative min-h-screen overflow-hidden bg-[#10141c]"
+      onMouseMove={onMove}
+      className="relative min-h-screen overflow-hidden bg-[#0a0d12]"
     >
-      {/* BACKGROUND IMAGE */}
-      <div className="absolute inset-0">
+      {/* Fotografía con paralaje */}
+      <div
+        ref={photoRef}
+        className="absolute inset-0 transition-transform duration-[400ms] ease-out will-change-transform"
+        style={{ transform: "scale(1.08)" }}
+      >
         <Image
           src="/images/hero/hero-main.jpg"
           alt="Maestranza metalmecánica Brinell"
@@ -25,123 +50,104 @@ export default function Hero() {
         />
       </div>
 
-      {/* DARK OVERLAY */}
-      <div className="absolute inset-0 bg-[#10141c]/75" />
+      <div className="absolute inset-0 bg-[#0a0d12]/70" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a0d12] via-[#0a0d12]/80 to-[#0a0d12]/30" />
+      <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#0a0d12] to-transparent" />
 
-      {/* BLUE GRADIENT */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#10141c] via-[#10141c]/75 to-[#10141c]/35" />
+      {/* Plancha estriada en el borde inferior, enlaza con el resto */}
+      <div className="plate absolute inset-x-0 bottom-0 h-40 opacity-30 [mask-image:linear-gradient(to_top,#000,transparent)]" />
 
-      {/* SUBTLE BOTTOM GRADIENT */}
-      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#10141c] to-transparent" />
+      <HeroSparks />
 
-      {/* GRID TÉCNICO */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #ffffff 1px, transparent 1px),
-            linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-          `,
-          backgroundSize: "90px 90px",
-          maskImage: "radial-gradient(ellipse at 70% 50%, black 30%, transparent 75%)",
-        }}
-      />
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 pb-28 pt-32 lg:px-8">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mb-7 font-mono text-sm text-brinell-yellow"
+        >
+          Maestranza metalmecánica
+          <span className="text-white/40"> / Antofagasta / desde {company.founded}</span>
+        </motion.p>
 
-      {/* ESCENA 3D — piezas mecanizadas flotando con parallax */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.6, delay: 0.3 }}
-        className="absolute inset-0 opacity-55 lg:opacity-100"
-      >
-        <HeroScene />
-      </motion.div>
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="heading-hard max-w-5xl text-5xl text-white sm:text-6xl md:text-7xl lg:text-[5.6rem]"
+        >
+          Mecanizado de precisión y{" "}
+          <em className="text-brinell-blue">recuperación de componentes</em>
+        </motion.h1>
 
-      {/* CONTENT */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 pb-20 pt-32 lg:px-8">
-        <div className="max-w-4xl">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.35 }}
+          className="mt-8 max-w-2xl text-lg leading-8 text-white/70"
+        >
+          Fabricamos, mecanizamos y recuperamos piezas críticas para la
+          industria minera e industrial del norte de Chile.
+        </motion.p>
 
-          {/* EYEBROW */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="mb-7 flex items-center gap-3 font-mono text-sm text-brinell-yellow"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mt-10 flex flex-col gap-4 sm:flex-row"
+        >
+          <a
+            href="#contacto"
+            className="group inline-flex items-center justify-center gap-3 bg-brinell-yellow px-8 py-4 text-sm font-bold uppercase tracking-[0.05em] text-[#0a0d12] transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_45px_rgba(238,205,95,0.3)]"
           >
-            Maestranza metalmecánica
-            <span className="text-white/40">/ Antofagasta / desde 2020</span>
-          </motion.div>
+            Solicitar cotización
+            <ArrowUpRight
+              size={18}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </a>
 
-          {/* TITLE */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-4xl text-5xl font-bold leading-[0.95] tracking-[-0.04em] text-white sm:text-6xl md:text-7xl lg:text-[5.8rem]"
+          <a
+            href="#servicios"
+            className="group inline-flex items-center justify-center gap-3 border border-white/25 px-8 py-4 text-sm font-bold uppercase tracking-[0.05em] text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white hover:bg-white/5"
           >
-            Precisión que
-            <br />
+            Ver servicios
+            <ArrowUpRight
+              size={18}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </a>
+        </motion.div>
 
-            <span className="text-brinell-blue">
-              mueve la industria.
-            </span>
-          </motion.h1>
-
-          {/* DESCRIPTION */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-8 max-w-2xl text-lg leading-8 text-white/75 sm:text-xl"
-          >
-            Soluciones de fabricación, mecanizado y reparación
-            metalmecánica para proyectos industriales y mineros.
-          </motion.p>
-
-          {/* BUTTONS */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-10 flex flex-col gap-4 sm:flex-row"
-          >
-            {/* SERVICIOS */}
-            <a
-              href="#servicios"
-              className="group inline-flex items-center justify-center gap-3 rounded-sm bg-brinell-blue px-7 py-4 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-brinell-blue-dark hover:shadow-xl hover:shadow-brinell-blue/20"
+        {/* Datos */}
+        <motion.dl
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.65 }}
+          className="mt-16 grid max-w-4xl grid-cols-2 gap-px border border-white/10 bg-white/10 backdrop-blur-md sm:grid-cols-4"
+        >
+          {facts.map((f) => (
+            <div
+              key={f.label}
+              className="group bg-[#0a0d12]/80 px-5 py-5 transition-colors duration-300 hover:bg-[#0a0d12]/40"
             >
-              Conocer nuestros servicios
-
-              <ArrowUpRight
-                size={18}
-                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-              />
-            </a>
-
-            {/* COTIZACIÓN */}
-            <a
-              href="#contacto"
-              className="group inline-flex items-center justify-center gap-3 rounded-sm border border-white/30 bg-white/5 px-7 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/60 hover:bg-white/10 hover:shadow-xl hover:shadow-black/20"
-            >
-              Solicitar cotización
-
-              <ArrowUpRight
-                size={18}
-                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-              />
-            </a>
-          </motion.div>
-
-        </div>
+              <dt className="text-xl font-bold tracking-[-0.03em] text-brinell-blue transition-colors duration-300 group-hover:text-brinell-yellow sm:text-2xl">
+                {f.value}
+              </dt>
+              <dd className="mt-1 font-mono text-[11px] leading-4 text-white/45">
+                {f.label}
+              </dd>
+            </div>
+          ))}
+        </motion.dl>
       </div>
 
-      {/* INDICADOR DE SCROLL */}
       <motion.a
         href="#nosotros"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-6 z-10 hidden items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40 transition-colors hover:text-white lg:left-8 lg:flex"
+        transition={{ duration: 1, delay: 1 }}
+        className="absolute bottom-8 right-6 z-10 hidden items-center gap-3 font-mono text-xs text-white/35 transition-colors hover:text-white lg:right-8 lg:flex"
       >
         <span className="relative flex h-10 w-6 items-start justify-center rounded-full border border-white/25 p-1.5">
           <motion.span
@@ -150,19 +156,8 @@ export default function Hero() {
             className="h-2 w-1 rounded-full bg-brinell-yellow"
           />
         </span>
-        Desliza para explorar
+        Desliza
       </motion.a>
-
-      {/* HINT 3D */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.6 }}
-        className="absolute bottom-[3.1rem] right-32 z-10 hidden items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/40 lg:flex"
-      >
-        <MousePointer2 size={13} />
-        Mueve el cursor
-      </motion.div>
     </section>
   );
 }

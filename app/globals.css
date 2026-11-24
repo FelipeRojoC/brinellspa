@@ -251,8 +251,9 @@ a {
 /* Plancha estriada: fondo metálico de las secciones oscuras */
 .plate {
   background-color: #0a0d12;
+  /* el mosaico es de 512px y se dibuja a 256 → doble densidad en pantallas retina */
   background-image: url("/images/textures/diamond-plate.png");
-  background-size: 190px 190px;
+  background-size: 256px 256px;
   background-repeat: repeat;
 }
 .plate-veil::before {
@@ -261,7 +262,7 @@ a {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 85% 60% at 50% 40%, rgba(10, 13, 18, 0.45), rgba(7, 10, 16, 0.92));
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(10, 13, 18, 0.2), rgba(7, 10, 16, 0.82));
 }
 
 /* Título de sección: pesado, en caja alta, con acento amarillo */
@@ -273,5 +274,4 @@ a {
 }
 .heading-hard em {
   font-style: normal;
-  color: var(--brinell-yellow);
 }
