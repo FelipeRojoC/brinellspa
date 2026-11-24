@@ -19,7 +19,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-[#05070a] text-white">
       {/* Remate de plancha, sin texto encima */}
-      <div aria-hidden className="plate-strip plate-strip-bottom h-20 w-full" />
+      <div aria-hidden className="plate-strip plate-strip-top h-24 w-full" />
 
       {/* Marca de agua gigante */}
       <div

@@ -24,19 +24,14 @@ export default function About() {
 
   return (
     <section id="nosotros" className="relative bg-white text-[#151a24]">
-      {/* Funde desde el hero oscuro hacia el blanco, sin corte */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0a0d12] to-transparent"
-      />
       {/* Declaración editorial */}
-      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-28 sm:pb-28 lg:px-8 lg:pb-36 lg:pt-36">
+      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 sm:pb-28 lg:px-8 lg:pb-36 lg:pt-28">
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.9 }}
-          className="max-w-5xl text-3xl font-light leading-[1.3] tracking-[-0.03em] sm:text-4xl lg:text-[3.4rem] lg:leading-[1.2]"
+          className="max-w-5xl text-3xl font-medium leading-[1.25] tracking-[-0.035em] sm:text-4xl lg:text-[3.2rem] lg:leading-[1.15]"
         >
           Brinell es una maestranza metalmecánica de{" "}
           <em className="not-italic font-semibold text-brinell-blue">Antofagasta</em>.

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { company } from "@/data/company";
 import Reveal, { RevealItem } from "./Reveal";
 import TiltCard from "./TiltCard";
+import ServiceBlueprint from "./ServiceBlueprint";
 
 /* Fotos disponibles del taller. El resto queda con tratamiento tipográfico
    hasta que lleguen las fotografías reales de cada trabajo. */
@@ -16,7 +17,7 @@ export default function Work() {
   return (
     <section id="trabajos" className="relative bg-[#070a10] text-white">
       {/* Franja de plancha como remate superior, sin texto encima */}
-      <div aria-hidden className="plate-strip plate-strip-bottom h-24 w-full" />
+      <div aria-hidden className="plate-strip plate-strip-top h-28 w-full" />
 
       <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8 lg:pb-32">
         <Reveal className="mb-14 max-w-3xl">
@@ -52,12 +53,10 @@ export default function Work() {
                       <div className="absolute inset-0 bg-gradient-to-t from-[#070a10] via-[#070a10]/40 to-transparent" />
                     </>
                   ) : (
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -right-5 -top-8 select-none text-[10rem] font-bold leading-none tracking-[-0.06em] text-white/[0.05] transition-colors duration-500 group-hover:text-brinell-yellow/15"
-                    >
-                      {service.number}
-                    </span>
+                    <>
+                      <ServiceBlueprint number={service.number} />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0e14] via-[#0b0e14]/40 to-transparent" />
+                    </>
                   )}
 
                   <div className="relative">
