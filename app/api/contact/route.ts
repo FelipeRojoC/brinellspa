@@ -9,6 +9,16 @@ import { NextResponse } from "next/server";
 
 const TO = process.env.CONTACT_TO ?? "felipe.rojo@alumnos.ucn.cl";
 
+/**
+ * Web3Forms responde en menos de un segundo. FormSubmit queda como
+ * alternativa sin registro, pero tarda bastante más de lo que Vercel
+ * permite a una función, así que conviene definir la clave.
+ */
+const WEB3FORMS_KEY = process.env.WEB3FORMS_KEY;
+
+/** Vercel corta las funciones del plan gratuito a los diez segundos. */
+const UPSTREAM_TIMEOUT_MS = 8000;
+
 const LIMITS = {
   nombre: 120,
   empresa: 120,
@@ -64,11 +74,22 @@ export async function POST(request: Request) {
     Mensaje: mensaje,
   };
 
+  const [url, upstreamBody] = WEB3FORMS_KEY
+    ? [
+        "https://api.web3forms.com/submit",
+        JSON.stringify({ access_key: WEB3FORMS_KEY, to: TO, ...payload }),
+      ]
+    : [
+        `https://formsubmit.co/ajax/${encodeURIComponent(TO)}`,
+        JSON.stringify(payload),
+      ];
+
   try {
-    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TO)}`, {
+    const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
+      body: upstreamBody,
+      signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
     });
 
     if (!res.ok) {
@@ -80,8 +101,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
-      { error: "No se pudo enviar el correo." },
-      { status: 502 },
+      { error: "El servicio de correo no respondió a tiempo." },
+      { status: 504 },
     );
   }
 }

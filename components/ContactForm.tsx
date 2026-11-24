@@ -244,10 +244,12 @@ export default function ContactForm() {
     setSending(true);
     setFailed(false);
     try {
+      // Sin tope, un proveedor lento dejaba el botón girando para siempre
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...fields, website: honeypot }),
+        signal: AbortSignal.timeout(15000),
       });
       if (!res.ok) throw new Error("envío rechazado");
       setSent("email");
