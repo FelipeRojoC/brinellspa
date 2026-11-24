@@ -35,14 +35,15 @@ export default function Clients() {
             <RevealItem key={client.name} className="group">
               <TiltCard
                 max={5}
-                className="relative flex h-32 items-center justify-center overflow-hidden bg-white px-6 sm:h-40 sm:px-10"
+                className="relative flex h-36 items-center justify-center overflow-hidden bg-white px-6 [--logo-h:56px] sm:h-44 sm:px-10 sm:[--logo-h:64px]"
               >
                 <Image
                 src={client.logo}
                 alt={client.name}
                 width={320}
                 height={120}
-                className="max-h-[56px] w-auto object-contain opacity-70 transition-opacity duration-500 group-hover:opacity-100 sm:max-h-[64px]"
+                style={{ maxHeight: `calc(var(--logo-h) * ${client.scale})` }}
+                className="w-auto object-contain opacity-70 transition-opacity duration-500 group-hover:opacity-100"
               />
 
                 <span className="absolute bottom-0 left-0 h-[3px] w-0 bg-brinell-blue transition-all duration-500 group-hover:w-full" />

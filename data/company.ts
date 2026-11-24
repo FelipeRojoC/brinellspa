@@ -30,13 +30,17 @@ export const company = {
   vision:
     "Posicionarnos como una de las maestranzas metalmecánicas más competentes de la Segunda Región, creciendo en capital humano y nuevas tecnologías.",
 
+  /**
+   * `scale` compensa la proporción de cada logotipo: los apilados necesitan
+   * más altura que las tiras horizontales para pesar lo mismo en pantalla.
+   */
   clients: [
-    { name: "Molycop", logo: "/images/clients/molycop.png" },
-    { name: "Finning", logo: "/images/clients/finning.png" },
-    { name: "Vestas", logo: "/images/clients/vestas.png" },
-    { name: "Nordex", logo: "/images/clients/nordex.png" },
-    { name: "Elecmetal", logo: "/images/clients/elecmetal.png" },
-    { name: "GR Ingeniería", logo: "/images/clients/gr.png" },
+    { name: "Molycop", logo: "/images/clients/molycop.png", scale: 1 },
+    { name: "Finning", logo: "/images/clients/finning.png", scale: 1 },
+    { name: "Vestas", logo: "/images/clients/vestas.png", scale: 1 },
+    { name: "Nordex", logo: "/images/clients/nordex.png", scale: 1.15 },
+    { name: "Elecmetal", logo: "/images/clients/elecmetal.png", scale: 1 },
+    { name: "GR Ingeniería", logo: "/images/clients/gr.png", scale: 2 },
   ],
 
   /** Los 6 servicios oficiales de Brinell. No modificar sin confirmación. */
