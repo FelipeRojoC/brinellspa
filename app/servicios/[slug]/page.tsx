@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
@@ -6,11 +7,13 @@ import PageHeader from "@/components/PageHeader";
 import PageTransition from "@/components/PageTransition";
 import ServicesGrid from "@/components/ServicesGrid";
 import ServiceBlueprint from "@/components/ServiceBlueprint";
+import WorkGallery from "@/components/WorkGallery";
 import CtaBand from "@/components/CtaBand";
 import Reveal from "@/components/Reveal";
 import JsonLd, { breadcrumbLd } from "@/components/JsonLd";
 import { company, siteUrl } from "@/data/company";
 import { getServicePage, servicePages } from "@/data/services-pages";
+import { worksOf } from "@/data/works";
 
 /** Las seis páginas se generan al compilar: salen estáticas y cargan al instante. */
 export function generateStaticParams() {
@@ -43,6 +46,10 @@ export default async function ServicioPage(
   const { slug } = await props.params;
   const data = getServicePage(slug);
   if (!data) notFound();
+
+  /* La primera fotografía hace de portada; el resto arma la galería. */
+  const trabajos = worksOf(data.service.number);
+  const [portada, ...galeria] = trabajos;
 
   const index = servicePages.findIndex((p) => p.slug === data.slug);
   const prev = servicePages[index - 1];
@@ -121,15 +128,26 @@ export default async function ServicioPage(
             </Reveal>
 
             <Reveal from="right" amount={0.15} className="lg:pt-4">
-              {/* Plano técnico animado: el taller aún no nos manda fotos de
-                  este trabajo, así que la ficha se sostiene en el dibujo. */}
+              {/* Si hay fotografía del trabajo, manda la fotografía. Donde
+                  todavía no la hay, el plano técnico sostiene la ficha. */}
               <div className="group relative aspect-[4/3] overflow-hidden bg-[#0b1019]">
-                <ServiceBlueprint number={data.service.number} />
+                {portada ? (
+                  <Image
+                    src={`/images/trabajos/${portada.image}`}
+                    alt={portada.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
+                  />
+                ) : (
+                  <ServiceBlueprint number={data.service.number} />
+                )}
                 <div
                   aria-hidden
-                  className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0b1019] to-transparent"
+                  className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0b1019] via-[#0b1019]/70 to-transparent"
                 />
-                <p className="absolute bottom-0 left-0 p-7 font-mono text-[11px] uppercase tracking-[0.2em] text-brinell-yellow">
+                <p className="absolute bottom-0 left-0 p-6 font-mono text-[11px] uppercase tracking-[0.2em] text-brinell-yellow sm:p-7">
                   {data.service.number} · {data.service.short}
                 </p>
               </div>
@@ -156,13 +174,50 @@ export default async function ServicioPage(
         </div>
       </section>
 
+      {/* TRABAJOS DE ESTA LÍNEA */}
+      {galeria.length > 0 && (
+        <section className="relative overflow-hidden bg-[#070a10] text-white">
+          <div
+            aria-hidden
+            className="plate-strip plate-strip-top pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70"
+          />
+          <div className="relative mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
+            <Reveal className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between lg:mb-12">
+              <h2 className="heading-hard max-w-xl text-[clamp(1.75rem,5vw,2.75rem)]">
+                Trabajos de{" "}
+                <em className="text-brinell-yellow">esta línea</em>
+              </h2>
+              <Link
+                href="/trabajos"
+                transitionTypes={["nav-forward"]}
+                className="group inline-flex shrink-0 items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-brinell-yellow sm:pb-2"
+              >
+                Ver todos los trabajos
+                <ArrowUpRight
+                  size={14}
+                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                />
+              </Link>
+            </Reveal>
+
+            <WorkGallery items={galeria} />
+          </div>
+        </section>
+      )}
+
       {/* QUÉ MANDAR PARA COTIZAR */}
-      <section className="relative overflow-hidden bg-[#070a10] text-white">
-        <div
-          aria-hidden
-          className="plate-strip plate-strip-top pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70"
-        />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-28">
+      <section
+        className={`relative overflow-hidden bg-[#070a10] text-white ${
+          galeria.length > 0 ? "border-t border-white/[0.07]" : ""
+        }`}
+      >
+        {galeria.length === 0 && (
+          <div
+            aria-hidden
+            className="plate-strip plate-strip-top pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70"
+          />
+        )}
+        <div className="relative mx-auto max-w-7xl px-6 py-18 lg:px-8 lg:py-28">
           <Reveal amount={0.2} className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
             <div>
               <h2 className="heading-hard text-3xl sm:text-4xl lg:text-5xl">

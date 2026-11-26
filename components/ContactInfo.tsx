@@ -111,28 +111,30 @@ export default function ContactInfo() {
         </div>
       </SpotlightCard>
 
-      {/* Teléfono */}
-      <SpotlightCard href={`tel:${company.phone.replace(/\s/g, "")}`}>
-        <Label>
-          <Phone size={12} /> Teléfono
-        </Label>
-        <p className="text-2xl font-bold tracking-[-0.03em] transition-colors group-hover:text-brinell-yellow sm:text-3xl">
-          {company.phone}
-        </p>
-        <Arrow />
-      </SpotlightCard>
+      {/* Las dos líneas de atención, cada una con su teléfono y su correo */}
+      {company.contacts.map((contact) => (
+        <SpotlightCard key={contact.email}>
+          <Label>
+            <Phone size={12} /> {contact.area}
+          </Label>
+          <p className="text-sm text-white/40">{contact.note}</p>
 
-      {/* Correo */}
-      <SpotlightCard href={`mailto:${company.emails.maestranza}`}>
-        <Label>
-          <Mail size={12} /> Correo
-        </Label>
-        <p className="text-lg font-semibold transition-colors group-hover:text-brinell-yellow sm:text-xl">
-          {company.emails.maestranza}
-        </p>
-        <p className="mt-1 text-sm text-white/45">{company.emails.administracion}</p>
-        <Arrow />
-      </SpotlightCard>
+          <a
+            href={`tel:${contact.phone.replace(/\s/g, "")}`}
+            className="mt-4 block text-xl font-bold tracking-[-0.03em] transition-colors hover:text-brinell-yellow sm:text-2xl"
+          >
+            {contact.phone}
+          </a>
+
+          <a
+            href={`mailto:${contact.email}`}
+            className="mt-2 flex items-center gap-2 break-all text-sm font-medium text-white/60 transition-colors hover:text-brinell-yellow"
+          >
+            <Mail size={13} className="shrink-0" />
+            {contact.email}
+          </a>
+        </SpotlightCard>
+      ))}
 
       {/* Dirección */}
       <SpotlightCard href={googleMapsUrl} className="sm:col-span-2">

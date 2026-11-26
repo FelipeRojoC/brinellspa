@@ -30,24 +30,29 @@ export default function PageHeader({
 }) {
   return (
     <header className="relative overflow-hidden bg-[#070a10] text-white">
-      {/* Textura metálica, atenuada hacia abajo para que el texto se lea */}
+      {/* Plancha a sangre, apagándose antes del borde inferior */}
       <div
         aria-hidden
-        className="plate-strip plate-strip-bottom pointer-events-none absolute inset-x-0 top-0 h-[70%] opacity-50"
+        className="plate-fade pointer-events-none absolute inset-0 opacity-45"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-32 -top-24 h-[560px] w-[560px]"
+        className="pointer-events-none absolute -right-24 -top-32 h-[420px] w-[420px] sm:-right-32 sm:h-[560px] sm:w-[560px]"
         style={{
           background:
             "radial-gradient(closest-side, rgba(54,120,228,0.18), transparent)",
         }}
       />
+      {/* Oscurece la mitad baja: el texto nunca cae sobre la textura cruda */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#070a10] via-[#070a10]/85 to-transparent"
+      />
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-36 sm:pb-20 sm:pt-40 lg:px-8 lg:pb-24 lg:pt-44">
+      <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-32 sm:pb-20 sm:pt-40 lg:px-8 lg:pb-24 lg:pt-44">
         {crumbs.length > 0 && (
-          <nav aria-label="Ruta de navegación" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-white/40">
+          <nav aria-label="Ruta de navegación" className="mb-7 sm:mb-8">
+            <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[10px] uppercase tracking-[0.14em] text-white/40 sm:text-[11px] sm:tracking-[0.16em]">
               {crumbs.map((crumb, i) => (
                 <li key={crumb.label} className="flex items-center gap-1.5">
                   {i > 0 && (
@@ -72,12 +77,12 @@ export default function PageHeader({
 
         <Reveal amount={0.1}>
           {eyebrow && (
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.18em] text-brinell-yellow">
+            <p className="mb-4 text-[11px] font-semibold uppercase leading-5 tracking-[0.14em] text-brinell-yellow sm:mb-5 sm:text-sm sm:tracking-[0.18em]">
               {eyebrow}
             </p>
           )}
 
-          <h1 className="heading-hard max-w-4xl text-[clamp(2.1rem,5.5vw,4.1rem)]">
+          <h1 className="heading-hard max-w-4xl text-[clamp(1.85rem,7vw,4.1rem)] [text-wrap:balance]">
             {title}
             {accent && (
               <>
@@ -88,7 +93,7 @@ export default function PageHeader({
           </h1>
 
           {lead && (
-            <p className="mt-7 max-w-2xl text-base leading-7 text-white/60 sm:text-lg sm:leading-8">
+            <p className="mt-6 max-w-2xl text-[15px] leading-7 text-white/60 sm:mt-7 sm:text-lg sm:leading-8">
               {lead}
             </p>
           )}

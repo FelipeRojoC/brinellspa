@@ -13,7 +13,7 @@ export default function NotFound() {
     <section className="relative flex min-h-screen items-center overflow-hidden bg-[#070a10] text-white">
       <div
         aria-hidden
-        className="plate-strip plate-strip-bottom pointer-events-none absolute inset-x-0 top-0 h-1/2 opacity-40"
+        className="plate-fade pointer-events-none absolute inset-0 opacity-40"
       />
       <div
         aria-hidden

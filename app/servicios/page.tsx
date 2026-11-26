@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PageHeader from "@/components/PageHeader";
 import PageTransition from "@/components/PageTransition";
 import ServicesGrid from "@/components/ServicesGrid";
 import CtaBand from "@/components/CtaBand";
 import JsonLd, { breadcrumbLd } from "@/components/JsonLd";
 import Clients from "@/components/Clients";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Servicios de maestranza en Antofagasta",
@@ -41,26 +43,45 @@ export default function ServiciosPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <ServicesGrid />
 
-          <div className="mt-20 grid gap-10 border-t border-[#dfe3e9] pt-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
-            <h2 className="heading-hard text-3xl text-[#151a24] sm:text-4xl">
-              Un solo taller para{" "}
-              <em className="text-brinell-blue">todo el trabajo</em>
-            </h2>
-            <div className="space-y-5 text-base leading-7 text-[#687386]">
-              <p>
-                Un componente que falla rara vez necesita una sola cosa. Un
-                cilindro hidráulico que llega con el vástago rayado puede
-                además tener el alojamiento fuera de medida y la estructura que
-                lo sostiene trizada. Resolverlo en tres proveedores distintos
-                significa tres cotizaciones, tres plazos y tres traslados.
+          <div className="mt-16 grid gap-10 border-t border-[#dfe3e9] pt-12 lg:mt-20 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:pt-14">
+            <Reveal>
+              <h2 className="heading-hard text-[clamp(1.75rem,5vw,2.5rem)] text-[#151a24]">
+                Un solo taller para{" "}
+                <em className="text-brinell-blue">todo el trabajo</em>
+              </h2>
+              <div className="mt-6 space-y-5 text-[15px] leading-7 text-[#687386] sm:text-base">
+                <p>
+                  Un componente que falla rara vez necesita una sola cosa. Un
+                  cilindro hidráulico que llega con el vástago rayado puede
+                  además tener el alojamiento fuera de medida y la estructura
+                  que lo sostiene trizada. Resolverlo en tres proveedores
+                  significa tres cotizaciones, tres plazos y tres traslados.
+                </p>
+                <p>
+                  Brinell trabaja las seis líneas en la misma planta de La
+                  Chimba, en Antofagasta. La pieza entra una vez y sale
+                  resuelta, y el plazo que te damos es el plazo completo, no el
+                  de una etapa.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal from="right" className="relative aspect-[16/10] overflow-hidden bg-[#0b1019]">
+              <Image
+                src="/images/trabajos/taller-torno.jpg"
+                alt="Torno en operación en el taller de Brinell, La Chimba"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0b1019] to-transparent"
+              />
+              <p className="absolute bottom-0 left-0 p-6 font-mono text-[11px] uppercase tracking-[0.18em] text-brinell-yellow">
+                Planta La Chimba · Antofagasta
               </p>
-              <p>
-                Brinell trabaja las seis líneas en la misma planta de La
-                Chimba, en Antofagasta. La pieza entra una vez y sale resuelta,
-                y el plazo que te damos es el plazo completo, no el de una
-                etapa.
-              </p>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

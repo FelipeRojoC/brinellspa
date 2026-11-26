@@ -25,6 +25,32 @@ export const company = {
     administracion: "administracion@brinell.cl",
   },
 
+  /**
+   * Las dos líneas de atención que la propia empresa publica en su
+   * presentación comercial (Presentacion_Brinell_2026_v4.pptx): la
+   * maestranza y el área de componentes hidráulicos, cada una con su
+   * correo y su teléfono.
+   *
+   * ⚠ administracion@brinell.cl viene del sitio anterior y no aparece en
+   * esa presentación. Conviene que Brinell confirme si sigue vigente.
+   */
+  contacts: [
+    {
+      area: "Maestranza",
+      note: "Fabricación, mecanizado y estructuras",
+      email: "maestranza@brinell.cl",
+      phone: "+56 9 4570 3762",
+      whatsapp: "56945703762",
+    },
+    {
+      area: "Componentes hidráulicos",
+      note: "Reparación y recuperación de componentes",
+      email: "componentes.hidraulicos@brinell.cl",
+      phone: "+56 9 6157 9699",
+      whatsapp: "56961579699",
+    },
+  ],
+
   mission:
     "Ser para nuestros clientes un verdadero aliado estratégico, dando la confianza necesaria y el respaldo adecuado en cada proyecto realizado.",
   vision:

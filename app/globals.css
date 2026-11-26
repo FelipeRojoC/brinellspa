@@ -274,6 +274,25 @@ a {
   mask-image: linear-gradient(to top, #000, transparent);
 }
 
+/**
+ * Plancha de fondo para las cabeceras: cubre todo el bloque y se apaga
+ * antes de llegar abajo, así no queda el corte recto donde termina la
+ * textura ni pasa por detrás del texto, que es donde estorba.
+ */
+.plate-fade {
+  background-color: transparent;
+  background-image: url("/images/textures/diamond-plate.png");
+  background-size: 232px 232px;
+  background-repeat: repeat;
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.85) 35%,
+    rgba(0, 0, 0, 0.35) 65%,
+    transparent 92%
+  );
+}
+
 /* Título de sección: pesado, en caja alta, con acento amarillo */
 .heading-hard {
   font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
@@ -405,5 +424,64 @@ a {
   ::view-transition-group(*) {
     animation-duration: 0s !important;
     animation-delay: 0s !important;
+  }
+}
+
+/* ================================
+   BOTÓN DE WHATSAPP
+   ================================
+
+   Un anillo que se expande cada varios segundos y un latido mínimo en el
+   botón: lo suficiente para que el ojo lo encuentre, no tanto como para
+   competir con el contenido. Al pasar el cursor se detiene, porque ahí ya
+   tiene la atención.
+*/
+
+@keyframes wa-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  /* El anillo ocupa el primer tercio del ciclo; el resto es pausa */
+  32%,
+  100% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
+}
+
+@keyframes wa-breath {
+  0%,
+  88%,
+  100% {
+    transform: scale(1);
+  }
+  94% {
+    transform: scale(1.06);
+  }
+}
+
+.wa-ring {
+  animation: wa-ring 3.6s cubic-bezier(0.2, 0.7, 0.4, 1) infinite;
+}
+
+.wa-breath {
+  animation: wa-breath 3.6s ease-in-out infinite;
+}
+
+.wa-button:hover .wa-ring,
+.wa-button:hover .wa-breath,
+.wa-button:focus-visible .wa-ring,
+.wa-button:focus-visible .wa-breath {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-ring,
+  .wa-breath {
+    animation: none;
+  }
+  .wa-ring {
+    opacity: 0;
   }
 }
