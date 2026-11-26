@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { company } from "@/data/company";
 
@@ -14,7 +16,10 @@ const sheet = [
   { k: "Clientes", v: company.clients.map((c) => c.name).join(" · ") },
 ];
 
-export default function About() {
+export default function About({
+  /** La portada remata con un enlace a la página de la empresa. */
+  moreHref,
+}: { moreHref?: string } = {}) {
   const bandRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: bandRef,
@@ -65,6 +70,28 @@ export default function About() {
             </div>
           ))}
         </motion.dl>
+
+        {moreHref && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.6 }}
+            className="mt-12"
+          >
+            <Link
+              href={moreHref}
+              transitionTypes={["nav-forward"]}
+              className="group inline-flex items-center gap-3 border border-[#151a24] px-7 py-4 text-sm font-semibold uppercase tracking-[0.05em] transition-all duration-300 hover:-translate-y-1 hover:bg-[#151a24] hover:text-white"
+            >
+              Conocer la empresa
+              <ArrowUpRight
+                size={17}
+                className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </Link>
+          </motion.div>
+        )}
       </div>
 
       {/* Banda misión / visión con foto parallax */}

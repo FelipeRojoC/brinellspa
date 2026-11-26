@@ -1,4 +1,4 @@
-import { company, siteUrl } from "@/data/company";
+import { company, openingHours, siteUrl } from "@/data/company";
 
 /**
  * Datos estructurados para Google. Permiten que la ficha de búsqueda
@@ -36,6 +36,8 @@ export default function StructuredData() {
       "@type": "AdministrativeArea",
       name: "Región de Antofagasta",
     },
+    // Sólo se publica cuando Brinell confirme el horario
+    ...(openingHours.length > 0 ? { openingHours } : {}),
     knowsAbout: company.services.map((s) => s.title),
     hasOfferCatalog: {
       "@type": "OfferCatalog",

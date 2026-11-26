@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -22,7 +23,19 @@ const COOL_MS = 700;
 let lowPower = false;
 
 export default function WeldIntro() {
+  /**
+   * La intro es un saludo, no un peaje: sólo corre cuando el visitante
+   * entra por la portada. Quien llega desde Google a una página de
+   * servicio ve el contenido de inmediato.
+   *
+   * El estado se decide una sola vez, al montar. El componente vive en el
+   * layout, que sobrevive a los cambios de página, así que al volver a la
+   * portada desde el menú la animación no se repite.
+   */
+  const isHome = usePathname() === "/";
+
   const [phase, setPhase] = useState<"weld" | "fade" | "done">(() => {
+    if (!isHome) return "done";
     if (typeof window === "undefined") return "weld";
     lowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches

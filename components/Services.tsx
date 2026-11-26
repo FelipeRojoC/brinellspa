@@ -4,7 +4,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { company } from "@/data/company";
+import { slugOf } from "@/data/services-pages";
 import Reveal, { RevealItem } from "./Reveal";
 
 const services = company.services;
@@ -31,8 +33,19 @@ export default function Services() {
           </h2>
           <p className="mt-5 text-base leading-7 text-[#687386]">
             Seis líneas de trabajo para la industria minera e industrial del
-            norte de Chile.
+            norte de Chile. Cada una tiene su propia página con el detalle.
           </p>
+          <Link
+            href="/servicios"
+            transitionTypes={["nav-forward"]}
+            className="group mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brinell-blue transition-colors hover:text-[#151a24]"
+          >
+            Ver los seis servicios
+            <ArrowUpRight
+              size={16}
+              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
+          </Link>
         </Reveal>
 
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16">
@@ -42,11 +55,11 @@ export default function Services() {
               const isActive = active === index;
               return (
                 <RevealItem key={service.number}>
-                <button
-                  type="button"
+                <Link
+                  href={`/servicios/${slugOf(service.number)}`}
+                  transitionTypes={["nav-forward"]}
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
-                  onClick={() => setActive(index)}
                   className={`group relative flex w-full items-center gap-5 border-b border-[#dfe3e9] py-6 text-left transition-all duration-300 ${
                     isActive
                       ? "bg-white px-5 shadow-[0_12px_35px_rgba(20,30,45,0.06)]"
@@ -84,7 +97,7 @@ export default function Services() {
                       isActive ? "scale-y-100" : "scale-y-0"
                     }`}
                   />
-                </button>
+                </Link>
                 </RevealItem>
               );
             })}
@@ -140,16 +153,17 @@ export default function Services() {
               </AnimatePresence>
 
               <div className="flex items-end justify-between gap-6 border-t border-white/10 pt-6">
-                <a
-                  href="#contacto"
+                <Link
+                  href={`/servicios/${slugOf(current.number)}`}
+                  transitionTypes={["nav-forward"]}
                   className="group inline-flex items-center gap-2 text-sm font-semibold text-white transition-colors hover:text-brinell-yellow"
                 >
-                  Solicitar cotización
+                  Ver este servicio
                   <ArrowUpRight
                     size={16}
                     className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   />
-                </a>
+                </Link>
 
                 <div className="flex gap-1.5">
                   {services.map((s, index) => (

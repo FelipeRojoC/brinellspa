@@ -10,6 +10,8 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
+      /* Anclado: no se desliza con el resto al cambiar de página */
+      style={{ viewTransitionName: "whatsapp-fab" }}
       className="
         group
         fixed

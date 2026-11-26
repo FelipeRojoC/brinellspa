@@ -90,6 +90,17 @@ export const company = {
   ],
 } as const;
 
+/**
+ * Horario de atención. ⚠ PENDIENTE: lo tiene que confirmar Brinell.
+ *
+ * En cuanto esté, se escribe aquí en formato schema.org —por ejemplo
+ * ["Mo-Fr 08:30-18:00", "Sa 09:00-13:00"]— y aparece solo en los datos
+ * estructurados que lee Google y en la página de contacto. Mientras el
+ * arreglo esté vacío, no se publica nada: es preferible no decir nada a
+ * decir un horario equivocado.
+ */
+export const openingHours: string[] = [];
+
 /** Dominio definitivo. En Vercel se define NEXT_PUBLIC_SITE_URL hasta conectarlo. */
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.brinell.cl";

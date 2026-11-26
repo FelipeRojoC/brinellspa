@@ -290,3 +290,120 @@ a {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ================================
+   TRANSICIONES ENTRE PÁGINAS
+   ================================
+
+   Las anima el navegador con la View Transitions API, a través del
+   componente <PageTransition>. Donde no esté soportada, el cambio de
+   página ocurre igual, sólo sin animación.
+
+   · nav-forward / nav-back: deslizamiento con sentido, para entrar a una
+     ficha de servicio y para volver.
+   · page-in / page-out: fundido, para el menú y el botón atrás del
+     navegador, donde no hay un "adentro" ni un "afuera".
+*/
+
+:root {
+  --vt-exit: 150ms;
+  --vt-enter: 220ms;
+  --vt-move: 420ms;
+}
+
+/* Que la página siga respondiendo mientras corre la animación */
+::view-transition {
+  pointer-events: none;
+}
+
+/* La barra superior queda anclada: si se deslizara, el visitante perdería
+   la única referencia fija de la pantalla. */
+::view-transition-group(site-header),
+::view-transition-group(whatsapp-fab) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(whatsapp-fab) {
+  /* Evita el parpadeo de ver la barra vieja y la nueva a la vez */
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(whatsapp-fab) {
+  animation: none;
+}
+
+/* Hacia adentro: lo viejo sale por la izquierda, lo nuevo entra por la derecha */
+::view-transition-old(.nav-forward) {
+  --vt-offset: -60px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --vt-offset: 60px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) ease-in-out both vt-slide;
+}
+
+/* De vuelta: el mismo movimiento al revés */
+::view-transition-old(.nav-back) {
+  --vt-offset: 60px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) ease-in-out both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --vt-offset: -60px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) ease-in-out both vt-slide;
+}
+
+/* Navegación lateral: sólo fundido, con un desplazamiento vertical mínimo */
+::view-transition-old(.page-out) {
+  animation: var(--vt-exit) ease-in both vt-fade reverse;
+}
+::view-transition-new(.page-in) {
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) ease-out both vt-rise;
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes vt-slide {
+  from {
+    translate: var(--vt-offset, 0);
+  }
+  to {
+    translate: 0;
+  }
+}
+@keyframes vt-rise {
+  from {
+    translate: 0 14px;
+  }
+  to {
+    translate: 0;
+  }
+}
+
+/* Quien pidió menos movimiento recibe el cambio sin animación */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

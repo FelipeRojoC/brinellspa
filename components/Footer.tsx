@@ -1,17 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { company } from "@/data/company";
-
-const navItems = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Trabajos", href: "#trabajos" },
-  { label: "Clientes", href: "#clientes" },
-  { label: "Contacto", href: "#contacto" },
-];
-
-const services = company.services.map((s) => s.short);
+import { mainRoutes, serviceRoutes } from "@/data/routes";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -30,23 +21,26 @@ export default function Footer() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 pb-10 pt-20 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr_0.7fr_1fr]">
+        <div className="grid gap-12 lg:grid-cols-[1.3fr_0.7fr_1fr_1fr]">
           {/* MARCA */}
           <div>
-            <Image
-              src="/images/logo/brinell-logo.png"
-              alt={company.name}
-              width={200}
-              height={72}
-              className="h-auto w-[180px]"
-            />
+            <Link href="/" aria-label="Brinell · Inicio">
+              <Image
+                src="/images/logo/brinell-logo.png"
+                alt={company.name}
+                width={200}
+                height={72}
+                className="h-auto w-[180px]"
+              />
+            </Link>
             <p className="mt-6 max-w-sm text-sm leading-7 text-white/50">
               Maestranza metalmecánica en Antofagasta. Ingeniería, fabricación,
               mecanizado y reparación para la industria minera e industrial.
             </p>
 
-            <a
-              href="#contacto"
+            <Link
+              href="/contacto"
+              transitionTypes={["nav-forward"]}
               className="group mt-8 inline-flex items-center gap-3 text-sm font-semibold text-white transition-colors hover:text-brinell-yellow"
             >
               Solicitar cotización
@@ -56,46 +50,47 @@ export default function Footer() {
                   className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* NAV */}
-          <div>
+          <nav aria-label="Navegación del sitio">
             <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-brinell-yellow">
               Navegación
             </p>
             <ul className="space-y-3">
-              {navItems.map((item) => (
+              {mainRoutes.map((item) => (
                 <li key={item.href}>
-                  <a
+                  <Link
                     href={item.href}
                     className="text-sm text-white/60 transition-colors hover:text-white"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* SERVICIOS */}
-          <div>
+          <nav aria-label="Servicios">
             <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-brinell-yellow">
               Servicios
             </p>
             <ul className="space-y-3">
-              {services.map((s) => (
-                <li key={s}>
-                  <a
-                    href="#servicios"
+              {serviceRoutes.map((s) => (
+                <li key={s.href}>
+                  <Link
+                    href={s.href}
+                    transitionTypes={["nav-forward"]}
                     className="text-sm text-white/60 transition-colors hover:text-white"
                   >
-                    {s}
-                  </a>
+                    {s.label}
+                  </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* CONTACTO */}
           <div>

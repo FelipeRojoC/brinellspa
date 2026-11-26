@@ -38,7 +38,10 @@ function LazyMap() {
   );
 }
 
-export default function Contact() {
+export default function Contact({
+  /** En la página de contacto el titular ya lo pone la cabecera. */
+  withHeading = true,
+}: { withHeading?: boolean } = {}) {
   const spotRef = useRef<HTMLDivElement>(null);
 
   const onMove = (e: MouseEvent<HTMLElement>) => {
@@ -69,7 +72,12 @@ export default function Contact() {
       />
 
       {/* CABECERA */}
-      <div className="relative mx-auto max-w-7xl px-6 pt-24 sm:pt-28 lg:px-8 lg:pt-32">
+      <div
+        className={`relative mx-auto max-w-7xl px-6 lg:px-8 ${
+          withHeading ? "pt-24 sm:pt-28 lg:pt-32" : "pt-px"
+        }`}
+      >
+        {withHeading ? (
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,6 +97,7 @@ export default function Contact() {
             contactamos a la brevedad.
           </p>
         </motion.div>
+        ) : null}
       </div>
 
       {/* MAPA */}

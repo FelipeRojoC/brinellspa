@@ -3,6 +3,9 @@ import { Archivo, Barlow, IBM_Plex_Mono } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import WeldIntro from "@/components/WeldIntro";
 import StructuredData from "@/components/StructuredData";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { company, siteUrl } from "@/data/company";
 import "./globals.css";
 
@@ -28,26 +31,35 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  alternates: { canonical: "/" },
-  title: `${company.name} · Maestranza Metalmecánica en Antofagasta`,
+  /**
+   * Cada página pone su propio título; la plantilla le agrega la empresa.
+   * Sin esto, Google muestra el mismo titular en las diez páginas y no
+   * distingue cuál responde a cada búsqueda.
+   */
+  title: {
+    default: `${company.name} · Maestranza Metalmecánica en Antofagasta`,
+    template: `%s · ${company.name}`,
+  },
   description:
-    "Ingeniería, fabricación, mecanizado, reparación de estructuras, arenado y pintura industrial para la minería e industria del norte de Chile.",
-  keywords: [
-    "maestranza",
-    "metalmecánica",
-    "Antofagasta",
-    "mecanizado",
-    "fabricación de estructuras",
-    "arenado",
-    "granallado",
-    "pintura industrial",
-    "minería",
-  ],
+    "Maestranza metalmecánica en Antofagasta: ingeniería y diseño de herramientas, mecanizado CNC, recuperación de componentes hidráulicos, balanceo dinámico, estructuras y ensamble por interferencia.",
+  applicationName: company.name,
+  authors: [{ name: company.name, url: siteUrl }],
   openGraph: {
-    title: `${company.name} · Maestranza Metalmecánica`,
-    description: "Precisión que mueve la industria. Antofagasta, Chile.",
+    siteName: company.name,
     locale: "es_CL",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  formatDetection: {
+    telephone: true,
+    address: true,
   },
 };
 
@@ -64,7 +76,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <StructuredData />
         <WeldIntro />
-        <SmoothScroll>{children}</SmoothScroll>
+
+        <SmoothScroll>
+          {/* Barra, pie y botón de WhatsApp viven en el layout: sobreviven al
+              cambio de página, así que no se vuelven a montar ni parpadean. */}
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </SmoothScroll>
       </body>
     </html>
   );
